@@ -1,8 +1,8 @@
-import withExportImages from 'next-export-optimize-images'
+import withExportImages from "next-export-optimize-images";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+	output: "export",
 };
 
 export default withExportImages(nextConfig);

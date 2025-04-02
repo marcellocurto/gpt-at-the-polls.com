@@ -6,11 +6,17 @@
     "dev": "next dev",
     "build": "next build && next-export-optimize-images",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "bun-types": "^1.2.8",
+    "easy-airtable-api": "^0.0.15",
+    "eslint-plugin-neverthrow": "^1.1.4",
+    "neverthrow": "^8.2.0",
     "next": "15.2.4",
     "next-export-optimize-images": "^4.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.0.2"
@@ -25,5 +31,27 @@
     "eslint-config-next": "15.2.4",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "useTabs": true,
+    "semi": true,
+    "singleQuote": false,
+    "proseWrap": "preserve",
+    "quoteProps": "as-needed",
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "endOfLine": "lf",
+    "htmlWhitespaceSensitivity": "css",
+    "insertPragma": false,
+    "singleAttributePerLine": false,
+    "bracketSameLine": false,
+    "jsxBracketSameLine": false,
+    "jsxSingleQuote": false,
+    "printWidth": 75,
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }
