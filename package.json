@@ -7,7 +7,9 @@
     "build": "next build && next-export-optimize-images",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check": "next lint && tsc --noEmit",
+    "deploy": "bun run build && bun run lib/ci/deploy.ts && bun run lib/ci/purge.ts"
   },
   "dependencies": {
     "bun-types": "^1.2.8",
