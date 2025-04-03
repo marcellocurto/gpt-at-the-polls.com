@@ -2,11 +2,23 @@ import { Link } from "@/components/links";
 
 export function Header() {
 	return (
-		<header className="flex justify-between gap-6 rounded-lg bg-zinc-200 px-8 py-6 text-xl">
-			<div>
-				<Link className="font-black" href="/">
-					gpt-at-the-polls.com
-				</Link>
+		<header className="px-2">
+			<div className="flex gap-6 rounded-b-4xl bg-rose-300/50 pt-8 pb-6 text-xl shadow-md">
+				<div className="mx-auto flex w-full max-w-7xl justify-between px-10">
+					<div>
+						<Link className="font-black italic" href="/">
+							GPT At The Polls
+						</Link>
+					</div>
+					<nav className="flex gap-4">
+						<Link className="font-medium italic" href="/polls">
+							Polls
+						</Link>
+						<Link className="font-medium italic" href="/about">
+							About
+						</Link>
+					</nav>
+				</div>
 			</div>
 		</header>
 	);
