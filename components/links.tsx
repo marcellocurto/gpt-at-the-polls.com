@@ -21,4 +21,24 @@ function SiteLink({
 	);
 }
 
+export function TextLink({
+	href,
+	children,
+	className,
+	...rest
+}: React.ComponentProps<typeof Link>) {
+	return (
+		<Link
+			href={href}
+			className={twMerge(
+				"underline transition-colors hover:text-pink-700",
+				className
+			)}
+			{...rest}
+		>
+			{children}
+		</Link>
+	);
+}
+
 export { SiteLink as Link };

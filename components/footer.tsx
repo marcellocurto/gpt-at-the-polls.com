@@ -12,6 +12,13 @@ export function Footer() {
 					Website by ROARK
 				</Link>
 			</FooterSection>
+			<FooterSection>
+				<Link href="/privacy">
+					Privacy Policy
+				</Link>
+
+				<Link href="/imprint">Imprint</Link>
+			</FooterSection>
 		</footer>
 	);
 }
