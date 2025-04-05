@@ -3,7 +3,7 @@ import { Link } from "@/components/links";
 export function Footer() {
 	return (
 		<footer className="mt-auto px-2">
-			<div className="flex gap-6 rounded-t-4xl bg-rose-300/50 pt-8 pb-6 text-xl shadow-md">
+			<div className="flex gap-6 rounded-t-4xl bg-gptgreen-300 pt-8 pb-6 text-xl shadow-md">
 				<div className="mx-auto text-sm flex w-full max-w-7xl justify-between px-10">
 					<FooterSection>
 						<Link href="https://marcellocurto.com" target="_blank">

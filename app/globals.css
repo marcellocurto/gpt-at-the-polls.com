@@ -1,1 +1,57 @@
 @import "tailwindcss";
+
+@theme {
+	--color-gptblue-50: oklch(98.04% 0.008 216.62);
+	--color-gptblue-100: oklch(94.79% 0.022 214.4);
+	--color-gptblue-200: oklch(86.39% 0.055 215.43);
+	--color-gptblue-300: oklch(76.5% 0.089 216.34);
+	--color-gptblue-400: oklch(63.56% 0.098 217.64);
+	--color-gptblue-500: oklch(40.94% 0.059 216.9);
+	--color-gptblue-600: oklch(38.5% 0.056 216.59);
+	--color-gptblue-700: oklch(33.95% 0.049 216.33);
+	--color-gptblue-800: oklch(30.36% 0.043 217.2);
+	--color-gptblue-900: oklch(21.24% 0.028 216.35);
+	--color-gptblue-950: oklch(21.24% 0.028 216.35);
+}
+
+@theme {
+	--color-gptorange-50: oklch(98.32% 0.007 39.46);
+	--color-gptorange-100: oklch(93.83% 0.025 32.86);
+	--color-gptorange-200: oklch(86.03% 0.059 34.08);
+	--color-gptorange-300: oklch(75.97% 0.106 34.08);
+	--color-gptorange-400: oklch(61.3% 0.182 35);
+	--color-gptorange-500: oklch(57.08% 0.179 34.7);
+	--color-gptorange-600: oklch(53.55% 0.17 34.7);
+	--color-gptorange-700: oklch(47.99% 0.152 34.79);
+	--color-gptorange-800: oklch(42.44% 0.134 34.81);
+	--color-gptorange-900: oklch(32.45% 0.099 35.27);
+	--color-gptorange-950: oklch(28.11% 0.084 35.63);
+}
+
+@theme {
+	--color-gptyellow-50: oklch(99.43% 0.003 84.56);
+	--color-gptyellow-100: oklch(96.39% 0.019 80.12);
+	--color-gptyellow-200: oklch(91.09% 0.047 80.79);
+	--color-gptyellow-300: oklch(85.07% 0.083 81.26);
+	--color-gptyellow-400: oklch(79.7% 0.114 79.04);
+	--color-gptyellow-500: oklch(74.12% 0.139 76.67);
+	--color-gptyellow-600: oklch(64.21% 0.127 75.1);
+	--color-gptyellow-700: oklch(53.11% 0.105 75.06);
+	--color-gptyellow-800: oklch(39.96% 0.077 76.18);
+	--color-gptyellow-900: oklch(26.68% 0.049 76.32);
+	--color-gptyellow-950: oklch(17.77% 0.031 86.67);
+}
+
+@theme {
+	--color-gptgreen-50: oklch(97.11% 0.003 145.55);
+	--color-gptgreen-100: oklch(90.53% 0.011 158.83);
+	--color-gptgreen-200: oklch(78.17% 0.02 157.75);
+	--color-gptgreen-300: oklch(64.53% 0.027 156.38);
+	--color-gptgreen-400: oklch(58.04% 0.035 156.56);
+	--color-gptgreen-500: oklch(51.85% 0.036 156.34);
+	--color-gptgreen-600: oklch(44.31% 0.032 156.34);
+	--color-gptgreen-700: oklch(36.44% 0.029 156.31);
+	--color-gptgreen-800: oklch(28.2% 0.024 154.4);
+	--color-gptgreen-900: oklch(19.99% 0.014 153.87);
+	--color-gptgreen-950: oklch(14.84% 0.009 153.36);
+}
