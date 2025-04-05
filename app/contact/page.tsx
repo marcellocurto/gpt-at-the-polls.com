@@ -8,7 +8,7 @@ import {
 } from "@/components/page";
 import { Metadata } from "next";
 
-const title = "About";
+const title = "Contact";
 
 export const metadata: Metadata = {
 	title,
