@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { options } from "@/lib/options";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "GPT at the Polls",
+	title: options.siteTitle,
 	description:
 		"A research project that analyzes the political opinions of large language models.",
 };

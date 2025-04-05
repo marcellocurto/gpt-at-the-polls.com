@@ -1,5 +1,6 @@
 import { Link } from "@/components/links";
 import { Logo } from "@/components/logo";
+import { options } from "@/lib/options";
 
 const links = [
 	{
@@ -82,7 +83,7 @@ export function Footer() {
 				</div>
 
 				<div className="text-center text-xs">
-					&copy; {new Date().getFullYear()} GPT At The Polls
+					&copy; {new Date().getFullYear()} {options.siteTitle}
 				</div>
 			</div>
 		</footer>
