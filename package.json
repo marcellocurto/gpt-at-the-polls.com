@@ -12,6 +12,7 @@
     "deploy": "bun run build && bun run lib/ci/deploy.ts && bun run lib/ci/purge.ts"
   },
   "dependencies": {
+    "@radix-ui/react-icons": "^1.3.2",
     "bun-types": "^1.2.8",
     "easy-airtable-api": "^0.0.15",
     "eslint-plugin-neverthrow": "^1.1.4",

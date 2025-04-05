@@ -1,6 +1,7 @@
 import { Link } from "@/components/links";
 import { Logo } from "@/components/logo";
 import { options } from "@/lib/options";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 const links = [
 	{
@@ -61,7 +62,7 @@ export function Footer() {
 		<footer className="mt-auto px-2">
 			<div className="bg-gptgreen-300 mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-12 rounded-t-4xl pt-12 pb-4 text-xl shadow-md">
 				<Logo />
-				<div className="grid sm:grid-cols-3 justify-between gap-6 px-10 text-center text-sm">
+				<div className="grid justify-between gap-6 px-10 text-center text-sm sm:grid-cols-3">
 					{links.map((section) => (
 						<section className="flex flex-col gap-1" key={section.title}>
 							{section.links.map((link) => (
@@ -79,6 +80,17 @@ export function Footer() {
 
 					<Link href="https://roark.at" target="_blank">
 						Website by ROARK
+					</Link>
+				</div>
+
+				<div className="flex flex-col items-center justify-between gap-0 text-center text-xs">
+					<Link
+						href="https://github.com/marcellocurto/gpt-at-the-polls.com"
+						target="_blank"
+						className="flex gap-1"
+					>
+						<GitHubLogoIcon />
+						<span>GitHub</span>
 					</Link>
 				</div>
 
