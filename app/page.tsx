@@ -3,8 +3,8 @@ import Android from "@/assets/images/gpt-at-polls.jpg";
 
 export default function Home() {
 	return (
-		<div className="px-2 py-4">
-			<div className="bg-gptyellow-200 mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl px-10 py-10 md:py-16">
+		<div className="px-2 py-4 ">
+			<div className="bg-gptyellow-200/80 mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl px-10 py-10 md:py-16 shadow-lg">
 				<div className="flex flex-col items-center gap-12 md:flex-row md:items-start">
 					<div className="flex flex-col gap-8">
 						<h1 className="text-gptblue-800 flex flex-col text-center text-4xl leading-6 font-black italic md:text-left">
