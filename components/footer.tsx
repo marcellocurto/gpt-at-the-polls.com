@@ -59,7 +59,7 @@ const links = [
 
 export function Footer() {
 	return (
-		<footer className="mt-auto px-2 pb-4 text-gptblue-500">
+		<footer className="mt-auto px-4 pb-4 text-gptblue-500">
 			<div className="bg-gptgreen-300/80 mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-12 rounded-4xl pt-12 pb-4 text-xl shadow-md">
 				<Logo />
 				<div className="grid justify-between gap-6 px-10 text-center text-sm sm:grid-cols-3">
