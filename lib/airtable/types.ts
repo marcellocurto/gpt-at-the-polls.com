@@ -1,16 +1,30 @@
 export type ThesisFields = {
-	These?: string;
-	"Stimme zu"?: string[];
-	Neutral?: string[];
-	"Stimme nicht zu"?: string[];
-	Reihenfolge?: number;
-	Wahlen?: string[];
+	thesis?: string;
+	agree?: string[];
+	neutral?: string[];
+	disagree?: string[];
+	order?: number;
+	elections?: string[];
 };
 
 export type AnswersFields = {
-	Name?: string;
-	Notes?: string;
-	Status?: string;
+	answer?: string;
+	explanation?: string;
+};
+
+export type ElectionFields = {
+	name?: string;
+	date?: string;
+	thesis?: string[];
+	source?: string[];
+	link?: string;
+	disclaimer?: string;
+	id?: string;
+};
+
+export type PartiesFields = {
+	name?: string;
+	fullName?: string;
 };
 
 export type DatensatzBTW2025Fields = {
@@ -22,21 +36,4 @@ export type DatensatzBTW2025Fields = {
 	"These: These"?: string;
 	"Position: Position"?: string[];
 	"Position: Begründung"?: string;
-};
-
-export type ElectionFields = {
-	Name?: string;
-	Wahldatum?: string;
-	Fragen?: string[];
-	Quelle?: string[];
-	Link?: string;
-};
-
-export type PartiesFields = {
-	Name?: string;
-	"Name (kurz)"?: string[];
-	"Name (lang)"?: string[];
-	"Stimme zu"?: string[];
-	Neutral?: string[];
-	"Stimme nicht zu"?: string[];
 };

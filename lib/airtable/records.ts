@@ -1,21 +1,15 @@
-import { ThesisFields } from "@/lib/airtable/types";
 import {
-	createRecord,
-	createRecords,
+	DatensatzBTW2025Fields,
+	ThesisFields,
+} from "@/lib/airtable/types";
+import {
 	getRecord,
 	getRecords,
+	createRecord,
+	createRecords,
 	updateRecord,
 	updateRecords,
 } from "easy-airtable-api";
-
-export async function getThesisRecords() {
-	return await getRecords<ThesisFields>({
-		apiKey: process.env.AIRTABLE_GPT_API_KEY!,
-		baseId: process.env.AIRTABLE_GPT_BASE_ID!,
-		tableId: process.env.AIRTABLE_GPT_THESIS_TABLE_ID!,
-		options: { maxRecords: 5000 },
-	});
-}
 
 export async function getThesisRecord(id: string) {
 	return await getRecord<ThesisFields>({
@@ -23,6 +17,15 @@ export async function getThesisRecord(id: string) {
 		baseId: process.env.AIRTABLE_GPT_BASE_ID!,
 		tableId: process.env.AIRTABLE_GPT_THESIS_TABLE_ID!,
 		recordId: id,
+	});
+}
+
+export async function getThesisRecords() {
+	return await getRecords<ThesisFields>({
+		apiKey: process.env.AIRTABLE_GPT_API_KEY!,
+		baseId: process.env.AIRTABLE_GPT_BASE_ID!,
+		tableId: process.env.AIRTABLE_GPT_THESIS_TABLE_ID!,
+		options: { maxRecords: 5000 },
 	});
 }
 
@@ -79,5 +82,14 @@ export async function updateThesisRecords(
 		options: {
 			typecast: true,
 		},
+	});
+}
+
+export async function getBTW2025Records() {
+	return await getRecords<DatensatzBTW2025Fields>({
+		apiKey: process.env.AIRTABLE_GPT_API_KEY!,
+		baseId: process.env.AIRTABLE_GPT_BASE_ID!,
+		tableId: process.env.AIRTABLE_GPT_BTW_2025_TABLE_ID!,
+		options: { maxRecords: 5000 },
 	});
 }
