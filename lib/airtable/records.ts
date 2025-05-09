@@ -420,7 +420,7 @@ export type ModelFields = {
 	context_length?: number;
 	supported_parameters?: string[];
 	test?: boolean;
-	politicalIndex?: string;
+	politicalIndex?: string[];
 };
 
 export async function getModelRecord(id: string) {
