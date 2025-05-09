@@ -420,6 +420,7 @@ export type ModelFields = {
 	context_length?: number;
 	supported_parameters?: string[];
 	test?: boolean;
+	politicalIndex?: string;
 };
 
 export async function getModelRecord(id: string) {
@@ -437,6 +438,18 @@ export async function getModelRecords() {
 		baseId,
 		tableId: "models",
 		options: { maxRecords: 5000 },
+	});
+}
+
+export async function getModelRecordsWithPoliticalIndex() {
+	return await getRecords<ModelFields>({
+		apiKey,
+		baseId,
+		tableId: "models",
+		options: {
+			maxRecords: 5000,
+			filterByFormula: `{politicalIndex}`,
+		},
 	});
 }
 

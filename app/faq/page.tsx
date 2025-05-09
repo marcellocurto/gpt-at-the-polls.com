@@ -20,7 +20,7 @@ export default function Page() {
 			<H1>{title}</H1>
 
 			<Section>
-				<H2>In Progess</H2>
+				<H2>In Progress</H2>
 				<SubSection>
 					<P>More to come soon.</P>
 				</SubSection>
