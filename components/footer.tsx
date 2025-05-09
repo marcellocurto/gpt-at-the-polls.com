@@ -12,8 +12,8 @@ const links = [
 				href: "/",
 			},
 			{
-				label: "Polls",
-				href: "/polls",
+				label: "Index",
+				href: "/political-index",
 			},
 			{
 				label: "About",
