@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-	const records = await getModelRecordsWithPoliticalIndex();
+	const records = (await getModelRecordsWithPoliticalIndex()).filter(
+		(record) => (record?.fields?.politicalIndex?.length ?? 0) > 100
+	);
 
 	const calculateDPercentage = (politicalIndex?: string[]): number => {
 		if (!politicalIndex || politicalIndex.length === 0) {
@@ -27,16 +29,18 @@ export default async function Page() {
 
 	return (
 		<div className="px-4 py-4">
-			<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl bg-zinc-200/80 px-10 py-10 shadow-lg md:py-16">
+			<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl bg-zinc-200/80 p-4 shadow-lg sm:p-10 md:py-16">
 				<H1>{title}</H1>
 
-				<div className="flex w-full flex-col gap-6 rounded-4xl p-6">
+				<div className="flex w-full flex-col gap-6 rounded-4xl p-2 sm:p-6">
 					<H2>Who is most like AOC?</H2>
 					<SubSection>
 						<div className="flex w-full flex-col gap-16">
 							{sortedRecords.map(({ id, fields }) => (
 								<div className="flex w-full flex-col gap-1" key={id}>
-									<h3 className="text-2xl font-bold">{fields.name}</h3>
+									<h3 className="text-xl font-bold sm:text-2xl">
+										{fields.name}
+									</h3>
 									<PoliticalIndex politicalIndex={fields.politicalIndex} />
 								</div>
 							))}
