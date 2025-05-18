@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
 	const records = (await getModelRecordsWithPoliticalIndex()).filter(
-		(record) => (record?.fields?.politicalIndex?.length ?? 0) > 100
+		(record) => (record?.fields?.politicalIndex?.length ?? 0) > 113
 	);
 
 	const calculateDPercentage = (politicalIndex?: string[]): number => {
