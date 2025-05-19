@@ -7,6 +7,7 @@ import {
 	updateRecords,
 	updateRecordsUpsert,
 } from "easy-airtable-api";
+import { unstable_cache } from "next/cache";
 
 const apiKey = process.env.AIRTABLE_API_KEY!;
 const baseId = process.env.AIRTABLE_BASE_ID!;
@@ -25,7 +26,7 @@ export async function getBillsRecords() {
 		apiKey,
 		baseId,
 		tableId: "bills",
-		options: { maxRecords: 5000 },
+		options: { maxRecords: 5_000 },
 	});
 }
 
@@ -35,7 +36,7 @@ export async function getBillsSelectedRecords() {
 		baseId,
 		tableId: "bills",
 		options: {
-			maxRecords: 5000,
+			maxRecords: 5_000,
 			filterByFormula: "{selection} = 'include'",
 		},
 	});
@@ -47,7 +48,7 @@ export async function getBillsTestRecords() {
 		baseId,
 		tableId: "bills",
 		options: {
-			maxRecords: 5000,
+			maxRecords: 5_000,
 			filterByFormula: "{test} = TRUE()",
 		},
 	});
@@ -156,7 +157,7 @@ export async function getVotesRecords() {
 		apiKey,
 		baseId,
 		tableId: "votes",
-		options: { maxRecords: 5000 },
+		options: { maxRecords: 5_000 },
 	});
 }
 
@@ -266,7 +267,7 @@ export async function getPeopleRecords() {
 		apiKey,
 		baseId,
 		tableId: "people",
-		options: { maxRecords: 5000 },
+		options: { maxRecords: 5_000 },
 	});
 }
 
@@ -346,7 +347,7 @@ export async function getCongressRecords() {
 		apiKey,
 		baseId,
 		tableId: "congress",
-		options: { maxRecords: 5000 },
+		options: { maxRecords: 5_000 },
 	});
 }
 
@@ -437,21 +438,27 @@ export async function getModelRecords() {
 		apiKey,
 		baseId,
 		tableId: "models",
-		options: { maxRecords: 5000 },
+		options: { maxRecords: 5_000 },
 	});
 }
 
-export async function getModelRecordsWithPoliticalIndex() {
-	return await getRecords<ModelFields>({
-		apiKey,
-		baseId,
-		tableId: "models",
-		options: {
-			maxRecords: 5000,
-			filterByFormula: `{politicalIndex}`,
-		},
-	});
-}
+export const getModelRecordsWithPoliticalIndex = unstable_cache(
+	async () => {
+		return await getRecords<ModelFields>({
+			apiKey,
+			baseId,
+			tableId: "models",
+			options: {
+				maxRecords: 5_000,
+				filterByFormula: `{politicalIndex}`,
+			},
+		});
+	},
+	["model-records-with-political-index"],
+	{
+		revalidate: 300,
+	}
+);
 
 export async function getModelTestRecords() {
 	return await getRecords<ModelFields>({
@@ -459,7 +466,7 @@ export async function getModelTestRecords() {
 		baseId,
 		tableId: "models",
 		options: {
-			maxRecords: 5000,
+			maxRecords: 5_000,
 			filterByFormula: "{test} = TRUE()",
 		},
 	});
@@ -471,7 +478,7 @@ export async function getModelSelectedRecords() {
 		baseId,
 		tableId: "models",
 		options: {
-			maxRecords: 5000,
+			maxRecords: 5_000,
 			filterByFormula: "{selection} = 'include'",
 		},
 	});
@@ -584,7 +591,7 @@ export async function getQueriesRecords() {
 		apiKey,
 		baseId,
 		tableId: "queries",
-		options: { maxRecords: 5000 },
+		options: { maxRecords: 5_000 },
 	});
 }
 
@@ -594,7 +601,7 @@ export async function getQueriesByRunIDRecords(runId: string) {
 		baseId,
 		tableId: "queries",
 		options: {
-			maxRecords: 5000,
+			maxRecords: 5_000,
 			filterByFormula: `{session_id} = '${runId}'`,
 		},
 	});

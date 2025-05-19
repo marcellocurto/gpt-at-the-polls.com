@@ -28,8 +28,8 @@ export default async function Page() {
 	});
 
 	return (
-		<div className="px-4 py-4">
-			<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl bg-zinc-200/80 p-4 shadow-lg sm:p-10 md:py-16">
+		<div className="px-3 py-3 sm:px-4 sm:py-4">
+			<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl bg-zinc-200/80 px-4 py-8 shadow-lg sm:p-10 md:py-16">
 				<H1>{title}</H1>
 
 				<div className="flex w-full flex-col gap-6 rounded-4xl p-2 sm:p-6">
@@ -69,16 +69,12 @@ function PoliticalIndex({
 	const percentageR = ((countR / total) * 100).toFixed(0);
 
 	return (
-		<div className="flex flex-col gap-2">
-			<div className="flex justify-between gap-2">
-				<P>
-					Democrats: {percentageD}% ({countD})
-				</P>
-				<P>
-					Republicans: {percentageR}% ({countR})
-				</P>
+		<div className="flex flex-col gap-1">
+			<div className="flex justify-between gap-2 px-2">
+				<P>{percentageD}%</P>
+				<P>{percentageR}%</P>
 			</div>
-			<div className="flex h-5 w-full gap-2">
+			<div className="flex h-5 w-full gap-1 overflow-hidden rounded-full">
 				<div
 					className="bg-blue-600"
 					style={{ width: `${percentageD}%` }}
@@ -87,6 +83,10 @@ function PoliticalIndex({
 					className="bg-red-700"
 					style={{ width: `${percentageR}%` }}
 				></div>
+			</div>
+			<div className="flex justify-between gap-2 px-2">
+				<P className="text-xs">Democrats</P>
+				<P className="text-xs">Republicans</P>
 			</div>
 		</div>
 	);

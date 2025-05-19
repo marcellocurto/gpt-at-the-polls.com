@@ -59,10 +59,10 @@ const links = [
 
 export function Footer() {
 	return (
-		<footer className="mt-auto px-4 pb-4 text-gptblue-500">
-			<div className="bg-gptgreen-300/80 mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-12 rounded-4xl pt-12 pb-4 text-xl shadow-md">
+		<footer className="text-gptblue-500 mt-auto px-3 pb-3 sm:px-4 sm:pb-4">
+			<div className="bg-gptgreen-300/80 mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-12 rounded-4xl pt-12 pb-4 shadow-md">
 				<Logo />
-				<div className="grid justify-between gap-6 px-10 text-center text-sm sm:grid-cols-3">
+				<div className="grid justify-between gap-6 px-10 text-center text-base sm:grid-cols-3">
 					{links.map((section) => (
 						<section className="flex flex-col gap-1" key={section.title}>
 							{section.links.map((link) => (
@@ -73,7 +73,7 @@ export function Footer() {
 						</section>
 					))}
 				</div>
-				<div className="flex flex-col items-center justify-between gap-0 text-center text-xs">
+				<div className="flex flex-col items-center justify-between gap-0 text-center text-sm">
 					<Link href="https://marcellocurto.com" target="_blank">
 						A Project by Marcello Curto
 					</Link>
@@ -83,14 +83,14 @@ export function Footer() {
 					</Link>
 				</div>
 
-				<div className="flex flex-col items-center justify-between gap-0 text-center text-xs">
+				<div>
 					<Link
 						href="https://github.com/marcellocurto/gpt-at-the-polls.com"
 						target="_blank"
-						className="flex gap-1"
+						className="flex items-center gap-1"
 					>
-						<GitHubLogoIcon />
-						<span>GitHub</span>
+						<GitHubLogoIcon className="size-6" />
+						<span>Code on GitHub</span>
 					</Link>
 				</div>
 
