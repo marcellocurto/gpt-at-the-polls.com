@@ -17,6 +17,7 @@ export async function generateStaticParams() {
 	const models = await getModelsCache();
 	return models
 		.filter((model) => model.slug)
+		.filter((model) => model.selection==="include")
 		.map((model) => ({
 			slug: model.slug,
 		}));
