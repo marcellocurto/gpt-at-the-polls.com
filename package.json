@@ -9,7 +9,9 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "check": "next lint && tsc --noEmit",
-    "purge": "bun run lib/ci/purge.ts"
+    "purge": "bun run lib/ci/purge.ts",
+    "fill-cache": "bun run lib/ci/fill-cache.ts",
+    "deploy": "bun run lib/ci/fill-cache.ts && bun run build && bun run purge"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",

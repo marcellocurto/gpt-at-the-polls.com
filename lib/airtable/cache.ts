@@ -5,8 +5,14 @@ import {
 	getPeopleRecords,
 	getQueriesRecords,
 	getVotesRecords,
+	BillsFields,
+	CongressFields,
+	ModelFields,
+	PeopleFields,
+	QueriesFields,
+	VotesFields,
 } from "@/lib/airtable/records";
-import { rm, mkdir } from "node:fs/promises";
+import { rm, mkdir, readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 async function createCacheFromRecords<T>({
@@ -68,4 +74,92 @@ export async function createCacheFromQueriesRecords(): Promise<void> {
 		folderName: "queries",
 		recordsFunction: getQueriesRecords,
 	});
+}
+
+async function readCache<T>(folderName: string): Promise<T[]> {
+	const cacheDir = join(process.cwd(), ".cache", folderName);
+	let entries: string[];
+	try {
+		entries = await readdir(cacheDir);
+	} catch {
+		return [];
+	}
+	const items: T[] = [];
+	for (const file of entries) {
+		if (file.endsWith(".json")) {
+			const text = await readFile(join(cacheDir, file), "utf-8");
+			items.push(JSON.parse(text) as T);
+		}
+	}
+	return items;
+}
+
+export async function getModelsCache(): Promise<ModelFields[]> {
+	return readCache<ModelFields>("models");
+}
+
+export async function getModelBySlug(
+	slug: string
+): Promise<ModelFields | undefined> {
+	const models = await getModelsCache();
+	return models.find((model) => model.slug === slug);
+}
+
+export async function getVotesCache(): Promise<VotesFields[]> {
+	return readCache<VotesFields>("votes");
+}
+
+export async function getPeopleCache(): Promise<PeopleFields[]> {
+	return readCache<PeopleFields>("people");
+}
+
+export async function getCongressCache(): Promise<CongressFields[]> {
+	return readCache<CongressFields>("congress");
+}
+
+export async function getBillsCache(): Promise<BillsFields[]> {
+	return readCache<BillsFields>("bills");
+}
+
+export async function getQueriesCache(): Promise<QueriesFields[]> {
+	return readCache<QueriesFields>("queries");
+}
+
+export async function getQueriesByAirtableIds(
+	airtableIds: string[]
+): Promise<QueriesFields[]> {
+	const queries: QueriesFields[] = [];
+	for (const airtableId of airtableIds) {
+		const query = await readCacheFile<QueriesFields>(
+			"queries",
+			airtableId
+		);
+		if (query) queries.push(query);
+	}
+	return queries;
+}
+
+export async function getBillsByAirtableIds(
+	airtableIds: string[]
+): Promise<BillsFields[]> {
+	const bills: BillsFields[] = [];
+	for (const airtableId of airtableIds) {
+		const bill = await readCacheFile<BillsFields>("bills", airtableId);
+		if (bill) bills.push(bill);
+	}
+	return bills;
+}
+
+export async function readCacheFile<T>(
+	folderName: string,
+	id: string
+): Promise<T | undefined> {
+	try {
+		const cacheDir = join(process.cwd(), ".cache", folderName);
+		const filePath = join(cacheDir, `${id}.json`);
+		const text = await readFile(filePath, "utf-8");
+		return JSON.parse(text) as T;
+	} catch {
+		return undefined;
+	}
 }

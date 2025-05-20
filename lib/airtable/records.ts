@@ -26,7 +26,7 @@ export async function getBillsRecords() {
 		apiKey,
 		baseId,
 		tableId: "bills",
-		options: { maxRecords: 5_000 },
+		options: { maxRecords: 50_000 },
 	});
 }
 
@@ -36,7 +36,7 @@ export async function getBillsSelectedRecords() {
 		baseId,
 		tableId: "bills",
 		options: {
-			maxRecords: 5_000,
+			maxRecords: 50_000,
 			filterByFormula: "{selection} = 'include'",
 		},
 	});
@@ -48,7 +48,7 @@ export async function getBillsTestRecords() {
 		baseId,
 		tableId: "bills",
 		options: {
-			maxRecords: 5_000,
+			maxRecords: 50_000,
 			filterByFormula: "{test} = TRUE()",
 		},
 	});
@@ -157,7 +157,7 @@ export async function getVotesRecords() {
 		apiKey,
 		baseId,
 		tableId: "votes",
-		options: { maxRecords: 5_000 },
+		options: { maxRecords: 50_000 },
 	});
 }
 
@@ -267,7 +267,7 @@ export async function getPeopleRecords() {
 		apiKey,
 		baseId,
 		tableId: "people",
-		options: { maxRecords: 5_000 },
+		options: { maxRecords: 50_000 },
 	});
 }
 
@@ -347,7 +347,7 @@ export async function getCongressRecords() {
 		apiKey,
 		baseId,
 		tableId: "congress",
-		options: { maxRecords: 5_000 },
+		options: { maxRecords: 50_000 },
 	});
 }
 
@@ -442,7 +442,7 @@ export async function getModelRecords() {
 		apiKey,
 		baseId,
 		tableId: "models",
-		options: { maxRecords: 5_000 },
+		options: { maxRecords: 50_000 },
 	});
 }
 
@@ -453,7 +453,7 @@ export const getModelRecordsWithPoliticalIndex = unstable_cache(
 			baseId,
 			tableId: "models",
 			options: {
-				maxRecords: 5_000,
+				maxRecords: 50_000,
 				filterByFormula: `{politicalIndex}`,
 			},
 		});
@@ -476,7 +476,7 @@ export async function getModelTestRecords() {
 		baseId,
 		tableId: "models",
 		options: {
-			maxRecords: 5_000,
+			maxRecords: 50_000,
 			filterByFormula: "{test} = TRUE()",
 		},
 	});
@@ -488,7 +488,7 @@ export async function getModelSelectedRecords() {
 		baseId,
 		tableId: "models",
 		options: {
-			maxRecords: 5_000,
+			maxRecords: 50_000,
 			filterByFormula: "{selection} = 'include'",
 		},
 	});
@@ -585,6 +585,9 @@ export type QueriesFields = {
 	cost?: number;
 	reasoning?: string;
 	raw_content?: string;
+	yesVotes?: string[];
+	noVotes?: string[];
+	politicalIndex?: string;
 };
 
 export async function getQueriesRecord(id: string) {
@@ -601,7 +604,7 @@ export async function getQueriesRecords() {
 		apiKey,
 		baseId,
 		tableId: "queries",
-		options: { maxRecords: 5_000 },
+		options: { maxRecords: 50_000 },
 	});
 }
 
@@ -611,7 +614,7 @@ export async function getQueriesByRunIDRecords(runId: string) {
 		baseId,
 		tableId: "queries",
 		options: {
-			maxRecords: 5_000,
+			maxRecords: 50_000,
 			filterByFormula: `{session_id} = '${runId}'`,
 		},
 	});
