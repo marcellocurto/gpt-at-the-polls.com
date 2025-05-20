@@ -40,7 +40,35 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 						politicalIndex={model.fields.politicalIndex}
 					/>
 				</div>
-				<PieChartDonut />
+				<PieChartDonut
+					data={[
+						{ candidate: "chrome", votes: 275, fill: "var(--chart-1)" },
+						{ candidate: "safari", votes: 200, fill: "var(--chart-2)" },
+						{ candidate: "firefox", votes: 187, fill: "var(--chart-3)" },
+						{ candidate: "edge", votes: 173, fill: "var(--chart-4)" },
+					]}
+					config={{
+						votes: {
+							label: "Votes",
+						},
+						chrome: {
+							label: "YES (AOC)",
+							color: "hsl(var(--chart-1))",
+						},
+						safari: {
+							label: "NO (AOC)",
+							color: "hsl(var(--chart-2))",
+						},
+						firefox: {
+							label: "YES (MIKE)",
+							color: "hsl(var(--chart-3))",
+						},
+						edge: {
+							label: "NO (MIKE)",
+							color: "hsl(var(--chart-4))",
+						},
+					}}
+				/>
 			</div>
 		</div>
 	);
