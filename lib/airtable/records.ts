@@ -416,12 +416,16 @@ export type ModelFields = {
 	output_modalities?: string[];
 	tokenizer?: string;
 	company?: string;
+	errors?: string;
 	pricing_prompt?: number;
 	pricing_completion?: number;
 	context_length?: number;
 	supported_parameters?: string[];
 	test?: boolean;
 	politicalIndex?: string[];
+	queries?: string[];
+	lastImport?: string;
+	slug?: string;
 };
 
 export async function getModelRecord(id: string) {
@@ -459,6 +463,12 @@ export const getModelRecordsWithPoliticalIndex = unstable_cache(
 		revalidate: 300,
 	}
 );
+
+export async function getModelRecordsBySlug(slug: string) {
+	const models = await getModelRecordsWithPoliticalIndex();
+	const model = models.filter((model) => model.fields.slug === slug);
+	return model?.[0] ?? undefined;
+}
 
 export async function getModelTestRecords() {
 	return await getRecords<ModelFields>({

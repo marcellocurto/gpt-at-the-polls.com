@@ -1,6 +1,8 @@
-import { H1, H2, P, SubSection } from "@/components/page";
+import { PoliticalIndexGraph } from "@/components/graphics/graph";
+import { H1, H2, SubSection } from "@/components/page";
 import { getModelRecordsWithPoliticalIndex } from "@/lib/airtable/records";
 import { Metadata } from "next";
+import Link from "next/link";
 
 const title = "Political Index";
 
@@ -38,55 +40,19 @@ export default async function Page() {
 						<div className="flex w-full flex-col gap-16">
 							{sortedRecords.map(({ id, fields }) => (
 								<div className="flex w-full flex-col gap-1" key={id}>
-									<h3 className="text-xl font-bold sm:text-2xl">
-										{fields.name}
-									</h3>
-									<PoliticalIndex politicalIndex={fields.politicalIndex} />
+									<Link href={`/models/${fields.slug}`}>
+										<h3 className="text-xl font-bold sm:text-2xl">
+											{fields.name}
+										</h3>
+									</Link>
+									<PoliticalIndexGraph
+										politicalIndex={fields.politicalIndex}
+									/>
 								</div>
 							))}
 						</div>
 					</SubSection>
 				</div>
-			</div>
-		</div>
-	);
-}
-
-function PoliticalIndex({
-	politicalIndex,
-}: {
-	politicalIndex?: string[];
-}) {
-	if (!politicalIndex || politicalIndex.length === 0) {
-		return null;
-	}
-
-	const countD = politicalIndex.filter((index) => index === "D").length;
-	const countR = politicalIndex.filter((index) => index === "R").length;
-	const total = politicalIndex.length;
-
-	const percentageD = ((countD / total) * 100).toFixed(0);
-	const percentageR = ((countR / total) * 100).toFixed(0);
-
-	return (
-		<div className="flex flex-col gap-1">
-			<div className="flex justify-between gap-2 px-2">
-				<P>{percentageD}%</P>
-				<P>{percentageR}%</P>
-			</div>
-			<div className="flex h-5 w-full gap-1 overflow-hidden rounded-full">
-				<div
-					className="bg-blue-600"
-					style={{ width: `${percentageD}%` }}
-				></div>
-				<div
-					className="bg-red-700"
-					style={{ width: `${percentageR}%` }}
-				></div>
-			</div>
-			<div className="flex justify-between gap-2 px-2">
-				<P className="text-xs">Democrats</P>
-				<P className="text-xs">Republicans</P>
 			</div>
 		</div>
 	);
