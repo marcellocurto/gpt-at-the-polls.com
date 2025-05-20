@@ -1,3 +1,4 @@
+import { PieChartDonut } from "@/components/charts/pie-chart";
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
 import { H1, P } from "@/components/page";
 import {
@@ -21,7 +22,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params: paramsPromise }: PageProps) {
-	const params = await paramsPromise; // Await the promise to get the actual slug object
+	const params = await paramsPromise;
 
 	if (!params || typeof params.slug !== "string") {
 		notFound();
@@ -39,6 +40,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 						politicalIndex={model.fields.politicalIndex}
 					/>
 				</div>
+				<PieChartDonut />
 			</div>
 		</div>
 	);
