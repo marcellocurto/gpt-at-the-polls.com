@@ -35,6 +35,19 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 		...(model.queries ?? []),
 	]);
 
+	let yesAocVotes = 0;
+	let noAocVotes = 0;
+	let yesMikeVotes = 0;
+	let noMikeVotes = 0;
+
+	for (const query of queries) {
+		const vote = query.vote;
+		if (query.yesVotes?.[0] === "recnGfzvMpW4zyvC7" && vote === "Yes") yesAocVotes++;
+		if (query.yesVotes?.[0] === "recmcdCkjBKUhhWIT" && vote === "Yes") yesMikeVotes++;
+		if (query.noVotes?.[0] === "recnGfzvMpW4zyvC7" && vote === "No") noAocVotes++;
+		if (query.noVotes?.[0] === "recmcdCkjBKUhhWIT" && vote === "No") noMikeVotes++;
+	}
+
 	return (
 		<div className="px-3 py-3 sm:px-4 sm:py-4">
 			<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl bg-zinc-200/80 px-4 py-8 shadow-lg sm:p-10 md:py-16">
@@ -45,28 +58,28 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 				</div>
 				<PieChartDonut
 					data={[
-						{ candidate: "chrome", votes: 275, fill: "var(--chart-1)" },
-						{ candidate: "safari", votes: 200, fill: "var(--chart-2)" },
-						{ candidate: "firefox", votes: 187, fill: "var(--chart-3)" },
-						{ candidate: "edge", votes: 173, fill: "var(--chart-4)" },
+						{ candidate: "yesAoc", votes: yesAocVotes, fill: "var(--chart-1)" },
+						{ candidate: "noAoc", votes: noAocVotes, fill: "var(--chart-2)" },
+						{ candidate: "yesMike", votes: yesMikeVotes, fill: "var(--chart-3)" },
+						{ candidate: "noMike", votes: noMikeVotes, fill: "var(--chart-4)" },
 					]}
 					config={{
 						votes: {
 							label: "Votes",
 						},
-						chrome: {
+						yesAoc: {
 							label: "YES (AOC)",
 							color: "hsl(var(--chart-1))",
 						},
-						safari: {
+						noAoc: {
 							label: "NO (AOC)",
 							color: "hsl(var(--chart-2))",
 						},
-						firefox: {
+						yesMike: {
 							label: "YES (MIKE)",
 							color: "hsl(var(--chart-3))",
 						},
-						edge: {
+						noMike: {
 							label: "NO (MIKE)",
 							color: "hsl(var(--chart-4))",
 						},
@@ -91,13 +104,17 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 									<div className="flex flex-col items-center justify-center gap-2">
 										<P>Vote AOC (D):</P>
 										<div className="flex size-14 items-center justify-center rounded-full border border-blue-400 bg-blue-200 text-center leading-0 font-bold shadow">
-											{query.politicalIndex === "D" ? "Yes" : "No"}
+											{query.yesVotes?.[0] === "recnGfzvMpW4zyvC7"
+												? "Yes"
+												: "No"}
 										</div>
 									</div>
 									<div className="flex flex-col items-center justify-center gap-2">
 										<P>Vote Mike Johnson (R):</P>
 										<div className="flex size-14 items-center justify-center rounded-full border border-red-400 bg-red-200 text-center leading-0 font-bold shadow">
-											{query.politicalIndex === "R" ? "Yes" : "No"}
+											{query.yesVotes?.[0] === "recmcdCkjBKUhhWIT"
+												? "Yes"
+												: "No"}
 										</div>
 									</div>
 								</div>
