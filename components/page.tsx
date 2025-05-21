@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
 export function PageLayout({ children }: { children: React.ReactNode }) {
@@ -17,33 +18,33 @@ interface ParagraphProps
 	children: React.ReactNode;
 }
 
-export function H1({ children, ...props }: HeadingProps) {
+export function H1({ children, className, ...props }: HeadingProps) {
 	return (
-		<h1 className="text-5xl font-bold" {...props}>
+		<h1 className={cn("text-5xl font-bold", className)} {...props}>
 			{children}
 		</h1>
 	);
 }
 
-export function H2({ children, ...props }: HeadingProps) {
+export function H2({ children, className, ...props }: HeadingProps) {
 	return (
-		<h2 className="text-3xl font-bold" {...props}>
+		<h2 className={cn("text-3xl font-bold", className)} {...props}>
 			{children}
 		</h2>
 	);
 }
 
-export function H3({ children, ...props }: HeadingProps) {
+export function H3({ children, className, ...props }: HeadingProps) {
 	return (
-		<h3 className="text-xl font-bold" {...props}>
+		<h3 className={cn("text-xl font-bold", className)} {...props}>
 			{children}
 		</h3>
 	);
 }
 
-export function P({ children, ...props }: ParagraphProps) {
+export function P({ children, className, ...props }: ParagraphProps) {
 	return (
-		<p className="text-lg" {...props}>
+		<p className={cn("text-lg", className)} {...props}>
 			{children}
 		</p>
 	);
@@ -57,25 +58,29 @@ interface ArticleProps extends React.HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
 }
 
-export function Article({ children, ...props }: ArticleProps) {
+export function Article({ children, className, ...props }: ArticleProps) {
 	return (
-		<article className="flex flex-col gap-12" {...props}>
+		<article className={cn("flex flex-col gap-12", className)} {...props}>
 			{children}
 		</article>
 	);
 }
 
-export function Section({ children, ...props }: SectionProps) {
+export function Section({ children, className, ...props }: SectionProps) {
 	return (
-		<div className="flex flex-col gap-6" {...props}>
+		<div className={cn("flex flex-col gap-6", className)} {...props}>
 			{children}
 		</div>
 	);
 }
 
-export function SubSection({ children, ...props }: SectionProps) {
+export function SubSection({
+	children,
+	className,
+	...props
+}: SectionProps) {
 	return (
-		<div className="flex flex-col gap-2" {...props}>
+		<div className={cn("flex flex-col gap-2", className)} {...props}>
 			{children}
 		</div>
 	);
@@ -89,13 +94,21 @@ interface ListItemProps extends React.HTMLAttributes<HTMLLIElement> {
 	children: React.ReactNode;
 }
 
-export function List({ children, ...props }: ListProps) {
-	return <ul {...props}>{children}</ul>;
+export function List({ children, className, ...props }: ListProps) {
+	return (
+		<ul className={cn("list-inside list-disc", className)} {...props}>
+			{children}
+		</ul>
+	);
 }
 
-export function ListItem({ children, ...props }: ListItemProps) {
+export function ListItem({
+	children,
+	className,
+	...props
+}: ListItemProps) {
 	return (
-		<li className="list-inside list-disc" {...props}>
+		<li className={cn("list-inside list-disc", className)} {...props}>
 			{children}
 		</li>
 	);
