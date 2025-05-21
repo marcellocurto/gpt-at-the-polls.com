@@ -1,5 +1,44 @@
 import { cn } from "@/lib/utils";
 
+export function PageOuterWrapper({
+	children,
+	className,
+	...props
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) {
+	return (
+		<div
+			className={cn("flex flex-col gap-3 p-3 sm:gap-4 sm:p-4", className)}
+			{...props}
+		>
+			{children}
+		</div>
+	);
+}
+
+export function PageInnerWrapper({
+	children,
+	className,
+	...props
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) {
+	return (
+		<div
+			className={cn(
+				"mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl bg-zinc-200/80 px-4 py-8 shadow-lg sm:p-10 md:py-16",
+				className
+			)}
+			{...props}
+		>
+			{children}
+		</div>
+	);
+}
+
 export function PageLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<div className="prose prose-invert mx-auto flex max-w-7xl flex-col gap-8 p-12">
@@ -38,6 +77,30 @@ export function H3({ children, className, ...props }: HeadingProps) {
 		<h3 className={cn("text-xl font-bold", className)} {...props}>
 			{children}
 		</h3>
+	);
+}
+
+export function H4({ children, className, ...props }: HeadingProps) {
+	return (
+		<h4 className={cn("text-lg font-bold", className)} {...props}>
+			{children}
+		</h4>
+	);
+}
+
+export function H5({ children, className, ...props }: HeadingProps) {
+	return (
+		<h5 className={cn("text-base font-bold", className)} {...props}>
+			{children}
+		</h5>
+	);
+}
+
+export function H6({ children, className, ...props }: HeadingProps) {
+	return (
+		<h6 className={cn("text-sm font-bold", className)} {...props}>
+			{children}
+		</h6>
 	);
 }
 
