@@ -66,22 +66,22 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 						{
 							candidate: "yesAoc",
 							votes: yesAocVotes,
-							fill: "var(--chart-1)",
+							fill: "var(--color-dem-blue)",
 						},
 						{
 							candidate: "noAoc",
 							votes: noAocVotes,
-							fill: "var(--chart-2)",
+							fill: "var(--color-dem-blue)",
 						},
 						{
 							candidate: "yesMike",
 							votes: yesMikeVotes,
-							fill: "var(--chart-3)",
+							fill: "var(--color-rep-red)",
 						},
 						{
 							candidate: "noMike",
 							votes: noMikeVotes,
-							fill: "var(--chart-4)",
+							fill: "var(--color-rep-red)",
 						},
 					]}
 					config={{

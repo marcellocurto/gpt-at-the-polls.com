@@ -24,11 +24,11 @@ export function PoliticalIndexGraph({
 			</div>
 			<div className="flex h-5 w-full gap-1 overflow-hidden rounded-full">
 				<div
-					className="bg-blue-600"
+					className="bg-dem-blue"
 					style={{ width: `${percentageD}%` }}
 				></div>
 				<div
-					className="bg-red-700"
+					className="bg-rep-red"
 					style={{ width: `${percentageR}%` }}
 				></div>
 			</div>

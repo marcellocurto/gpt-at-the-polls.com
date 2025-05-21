@@ -4,6 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+	--color-rep-red: oklch(59% 0.23 26.98);
+	--color-dem-blue: oklch(50% 0.28 269.85);
+
 	--color-gptblue-50: oklch(98.04% 0.008 216.62);
 	--color-gptblue-100: oklch(94.79% 0.022 214.4);
 	--color-gptblue-200: oklch(86.39% 0.055 215.43);
@@ -15,9 +18,7 @@
 	--color-gptblue-800: oklch(30.36% 0.043 217.2);
 	--color-gptblue-900: oklch(21.24% 0.028 216.35);
 	--color-gptblue-950: oklch(21.24% 0.028 216.35);
-}
 
-@theme {
 	--color-gptorange-50: oklch(98.32% 0.007 39.46);
 	--color-gptorange-100: oklch(93.83% 0.025 32.86);
 	--color-gptorange-200: oklch(86.03% 0.059 34.08);
@@ -29,9 +30,7 @@
 	--color-gptorange-800: oklch(42.44% 0.134 34.81);
 	--color-gptorange-900: oklch(32.45% 0.099 35.27);
 	--color-gptorange-950: oklch(28.11% 0.084 35.63);
-}
 
-@theme {
 	--color-gptyellow-50: oklch(99.43% 0.003 84.56);
 	--color-gptyellow-100: oklch(96.39% 0.019 80.12);
 	--color-gptyellow-200: oklch(91.09% 0.047 80.79);
@@ -43,9 +42,7 @@
 	--color-gptyellow-800: oklch(39.96% 0.077 76.18);
 	--color-gptyellow-900: oklch(26.68% 0.049 76.32);
 	--color-gptyellow-950: oklch(17.77% 0.031 86.67);
-}
 
-@theme {
 	--color-gptgreen-50: oklch(97.11% 0.003 145.55);
 	--color-gptgreen-100: oklch(90.53% 0.011 158.83);
 	--color-gptgreen-200: oklch(78.17% 0.02 157.75);
