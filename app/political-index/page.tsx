@@ -1,6 +1,6 @@
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
 import { H1, H2, SubSection } from "@/components/page";
-import { getModelRecordsWithPoliticalIndex } from "@/lib/airtable/records";
+import { getModelsCache } from "@/lib/airtable/cache";
 import { getSiteMetadata } from "@/lib/meta-tags";
 import Link from "next/link";
 
@@ -11,8 +11,8 @@ const description =
 export const metadata = getSiteMetadata({ title, description });
 
 export default async function Page() {
-	const records = (await getModelRecordsWithPoliticalIndex()).filter(
-		(record) => (record?.fields?.politicalIndex?.length ?? 0) > 113
+	const records = (await getModelsCache()).filter(
+		(record) => (record.politicalIndex?.length ?? 0) > 113
 	);
 
 	const calculateDPercentage = (politicalIndex?: string[]): number => {
@@ -24,8 +24,8 @@ export default async function Page() {
 	};
 
 	const sortedRecords = [...records].sort((a, b) => {
-		const percentageA = calculateDPercentage(a.fields.politicalIndex);
-		const percentageB = calculateDPercentage(b.fields.politicalIndex);
+		const percentageA = calculateDPercentage(a.politicalIndex);
+		const percentageB = calculateDPercentage(b.politicalIndex);
 		return percentageB - percentageA;
 	});
 
@@ -38,16 +38,14 @@ export default async function Page() {
 					<H2>Who is most like AOC?</H2>
 					<SubSection>
 						<div className="flex w-full flex-col gap-16">
-							{sortedRecords.map(({ id, fields }) => (
-								<div className="flex w-full flex-col gap-1" key={id}>
-									<Link href={`/models/${fields.slug}`}>
+							{sortedRecords.map(({ slug, name, politicalIndex }) => (
+								<div className="flex w-full flex-col gap-1" key={slug}>
+									<Link href={`/models/${slug}`}>
 										<h3 className="text-xl font-bold sm:text-2xl">
-											{fields.name}
+											{name}
 										</h3>
 									</Link>
-									<PoliticalIndexGraph
-										politicalIndex={fields.politicalIndex}
-									/>
+									<PoliticalIndexGraph politicalIndex={politicalIndex} />
 								</div>
 							))}
 						</div>

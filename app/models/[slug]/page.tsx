@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 	const models = await getModelsCache();
 	return models
 		.filter((model) => model.slug)
-		.filter((model) => model.selection==="include")
+		.filter((model) => model.selection === "include")
 		.map((model) => ({
 			slug: model.slug,
 		}));
@@ -43,10 +43,14 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 
 	for (const query of queries) {
 		const vote = query.vote;
-		if (query.yesVotes?.[0] === "recnGfzvMpW4zyvC7" && vote === "Yes") yesAocVotes++;
-		if (query.yesVotes?.[0] === "recmcdCkjBKUhhWIT" && vote === "Yes") yesMikeVotes++;
-		if (query.noVotes?.[0] === "recnGfzvMpW4zyvC7" && vote === "No") noAocVotes++;
-		if (query.noVotes?.[0] === "recmcdCkjBKUhhWIT" && vote === "No") noMikeVotes++;
+		if (query.yesVotes?.[0] === "recnGfzvMpW4zyvC7" && vote === "Yes")
+			yesAocVotes++;
+		if (query.yesVotes?.[0] === "recmcdCkjBKUhhWIT" && vote === "Yes")
+			yesMikeVotes++;
+		if (query.noVotes?.[0] === "recnGfzvMpW4zyvC7" && vote === "No")
+			noAocVotes++;
+		if (query.noVotes?.[0] === "recmcdCkjBKUhhWIT" && vote === "No")
+			noMikeVotes++;
 	}
 
 	return (
@@ -59,10 +63,26 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 				</div>
 				<PieChartDonut
 					data={[
-						{ candidate: "yesAoc", votes: yesAocVotes, fill: "var(--chart-1)" },
-						{ candidate: "noAoc", votes: noAocVotes, fill: "var(--chart-2)" },
-						{ candidate: "yesMike", votes: yesMikeVotes, fill: "var(--chart-3)" },
-						{ candidate: "noMike", votes: noMikeVotes, fill: "var(--chart-4)" },
+						{
+							candidate: "yesAoc",
+							votes: yesAocVotes,
+							fill: "var(--chart-1)",
+						},
+						{
+							candidate: "noAoc",
+							votes: noAocVotes,
+							fill: "var(--chart-2)",
+						},
+						{
+							candidate: "yesMike",
+							votes: yesMikeVotes,
+							fill: "var(--chart-3)",
+						},
+						{
+							candidate: "noMike",
+							votes: noMikeVotes,
+							fill: "var(--chart-4)",
+						},
 					]}
 					config={{
 						votes: {
