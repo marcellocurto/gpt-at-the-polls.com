@@ -6,13 +6,12 @@ import {
 	Section,
 	SubSection,
 } from "@/components/page";
-import { Metadata } from "next";
+import { getSiteMetadata } from "@/lib/meta-tags";
 
 const title = "Contact";
+const description = "This is the contact page of the project.";
 
-export const metadata: Metadata = {
-	title,
-};
+export const metadata = getSiteMetadata({ title, description });
 
 export default function Page() {
 	return (

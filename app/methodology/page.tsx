@@ -6,13 +6,13 @@ import {
 	Section,
 	SubSection,
 } from "@/components/page";
-import { Metadata } from "next";
+import { getSiteMetadata } from "@/lib/meta-tags";
 
 const title = "Methodology";
+const description =
+	"This is the methodology of the project. It explains how the data is collected and processed.";
 
-export const metadata: Metadata = {
-	title,
-};
+export const metadata = getSiteMetadata({ title, description });
 
 export default function Page() {
 	return (

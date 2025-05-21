@@ -58,7 +58,7 @@ export default async function Home() {
 					/>
 				</div>
 			</PageInnerWrapper>
-			<PageInnerWrapper className="bg-zinc-200/80">
+			<PageInnerWrapper>
 				<H1>Political Index</H1>
 
 				<div className="flex w-full flex-col gap-6 rounded-4xl p-2 sm:p-6">

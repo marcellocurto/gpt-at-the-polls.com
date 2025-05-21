@@ -1,14 +1,14 @@
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
 import { H1, H2, SubSection } from "@/components/page";
 import { getModelRecordsWithPoliticalIndex } from "@/lib/airtable/records";
-import { Metadata } from "next";
+import { getSiteMetadata } from "@/lib/meta-tags";
 import Link from "next/link";
 
 const title = "Political Index";
+const description =
+	"This is the political index of the models on this site.";
 
-export const metadata: Metadata = {
-	title,
-};
+export const metadata = getSiteMetadata({ title, description });
 
 export default async function Page() {
 	const records = (await getModelRecordsWithPoliticalIndex()).filter(

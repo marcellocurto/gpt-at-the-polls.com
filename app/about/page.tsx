@@ -5,26 +5,31 @@ import {
 	P,
 	Section,
 	SubSection,
+	PageOuterWrapper,
+	PageInnerWrapper,
 } from "@/components/page";
-import { Metadata } from "next";
+import { getSiteMetadata } from "@/lib/meta-tags";
 
 const title = "About";
+const description = "This is the about page of the project.";
 
-export const metadata: Metadata = {
-	title,
-};
+export const metadata = getSiteMetadata({ title, description });
 
 export default function Page() {
 	return (
-		<PageLayout>
-			<H1>{title}</H1>
+		<PageOuterWrapper>
+			<PageInnerWrapper>
+				<PageLayout>
+					<H1>{title}</H1>
 
-			<Section>
-				<H2>In Progress</H2>
-				<SubSection>
-					<P>More to come soon.</P>
-				</SubSection>
-			</Section>
-		</PageLayout>
+					<Section>
+						<H2>In Progress</H2>
+						<SubSection>
+							<P>More to come soon.</P>
+						</SubSection>
+					</Section>
+				</PageLayout>
+			</PageInnerWrapper>
+		</PageOuterWrapper>
 	);
 }

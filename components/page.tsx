@@ -41,7 +41,7 @@ export function PageInnerWrapper({
 
 export function PageLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="prose prose-invert mx-auto flex max-w-7xl flex-col gap-8 p-12">
+		<div className="prose prose-invert mx-auto flex w-full max-w-7xl flex-col gap-8 p-12">
 			{children}
 		</div>
 	);
