@@ -7,11 +7,27 @@ import {
 	getModelsCache,
 	getQueriesByAirtableIds,
 } from "@/lib/airtable/cache";
+import { getSiteMetadata } from "@/lib/meta-tags";
 import { notFound } from "next/navigation";
 
 type PageProps = {
 	params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: PageProps) {
+	const { slug } = await params;
+	const model = await getModelBySlug(slug);
+	if (!model) {
+		return getSiteMetadata({
+			title: "Model Not Found",
+			description: "The model you are looking for does not exist.",
+		});
+	}
+	return getSiteMetadata({
+		title: model.name,
+		description: model.summary || model.description,
+	});
+}
 
 export async function generateStaticParams() {
 	const models = await getModelsCache();
