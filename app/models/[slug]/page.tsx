@@ -47,9 +47,14 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 
 	const model = await getModelBySlug(params.slug);
 	if (!model) notFound();
-	const queries = await getQueriesByAirtableIds([
-		...(model.queries ?? []),
-	]);
+	const queries = (
+		await getQueriesByAirtableIds([...(model.queries ?? [])])
+	).sort((a, b) => {
+		return (
+			new Date(b?.billDate ?? "").getTime() -
+			new Date(a?.billDate ?? "").getTime()
+		);
+	});
 
 	return (
 		<div className="px-3 py-3 sm:px-4 sm:py-4">

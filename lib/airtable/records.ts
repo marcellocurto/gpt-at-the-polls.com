@@ -21,12 +21,12 @@ export async function getBillsRecord(id: string) {
 	});
 }
 
-export async function getBillsRecords() {
+export async function getBillsRecords({ fields }: { fields?: string[] }) {
 	return await getRecords<BillsFields>({
 		apiKey,
 		baseId,
 		tableId: "bills",
-		options: { maxRecords: 50_000 },
+		options: { maxRecords: 50_000, fields },
 	});
 }
 
@@ -142,6 +142,8 @@ export type BillsFields = {
 	rollCalls?: string[] | number[] | null;
 	test?: boolean;
 	summaryWebsite?: string;
+	"yes (from votes)"?: string[];
+	"no (from votes)"?: string[];
 };
 
 export async function getVotesRecord(id: string) {
@@ -343,12 +345,16 @@ export async function getCongressRecord(id: string) {
 	});
 }
 
-export async function getCongressRecords() {
+export async function getCongressRecords({
+	fields,
+}: {
+	fields?: string[];
+}) {
 	return await getRecords<CongressFields>({
 		apiKey,
 		baseId,
 		tableId: "congress",
-		options: { maxRecords: 50_000 },
+		options: { maxRecords: 50_000, fields },
 	});
 }
 
@@ -592,6 +598,7 @@ export type QueriesFields = {
 	yesVotes?: string[];
 	noVotes?: string[];
 	politicalIndex?: string;
+	billDate?: string;
 };
 
 export async function getQueriesRecord(id: string) {
