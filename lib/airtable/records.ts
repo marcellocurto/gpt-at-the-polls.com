@@ -428,6 +428,7 @@ export type ModelFields = {
 	slug?: string;
 	selection?: string;
 	featured?: boolean;
+	summary?: string;
 };
 
 export async function getModelRecord(id: string) {

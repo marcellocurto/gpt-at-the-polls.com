@@ -57,7 +57,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 		<div className="px-3 py-3 sm:px-4 sm:py-4">
 			<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl bg-zinc-200/80 px-4 py-8 shadow-lg sm:p-10 md:py-16">
 				<H1>{model.name}</H1>
-				<P>{model.description}</P>
+				<P>{model.summary}</P>
 				<div className="flex w-full flex-col gap-4">
 					<PoliticalIndexGraph politicalIndex={model.politicalIndex} />
 				</div>
