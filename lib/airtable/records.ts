@@ -141,6 +141,7 @@ export type BillsFields = {
 	billPdfUrl?: string;
 	rollCalls?: string[] | number[] | null;
 	test?: boolean;
+	summaryWebsite?: string;
 };
 
 export async function getVotesRecord(id: string) {
