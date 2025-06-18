@@ -9,20 +9,20 @@ import {
 
 console.log("Filling cache");
 
-// await createCacheFromCongressRecords();
-// console.log("Congress cache filled");
+await createCacheFromCongressRecords();
+console.log("Congress cache filled");
 
-// await createCacheFromPeopleRecords();
-// console.log("People cache filled");
+await createCacheFromPeopleRecords();
+console.log("People cache filled");
 
 await createCacheFromVotesRecords();
 console.log("Votes cache filled");
 
-// await createCacheFromBillsRecords();
-// console.log("Bills cache filled");
+await createCacheFromBillsRecords();
+console.log("Bills cache filled");
 
-// await createCacheFromQueriesRecords();
-// console.log("Queries cache filled");
+await createCacheFromQueriesRecords();
+console.log("Queries cache filled");
 
-// await createCacheFromModelsRecords();
-// console.log("Models cache filled");
+await createCacheFromModelsRecords();
+console.log("Models cache filled");
