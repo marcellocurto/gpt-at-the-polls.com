@@ -91,7 +91,7 @@ const getAllData = unstable_cache(
 	},
 	["all-airtable-data"],
 	{
-		revalidate: 3600,
+		revalidate: false,
 		tags: ["airtable-data"]
 	}
 );
@@ -103,7 +103,7 @@ export const getModelsCache = unstable_cache(
 	},
 	["models-cache"],
 	{
-		revalidate: 3600,
+		revalidate: false,
 		tags: ["models"]
 	}
 );
@@ -127,7 +127,7 @@ export const getVotesCache = unstable_cache(
 	},
 	["votes-cache"],
 	{
-		revalidate: 3600,
+		revalidate: false,
 		tags: ["votes"]
 	}
 );
@@ -139,7 +139,7 @@ export const getPeopleCache = unstable_cache(
 	},
 	["people-cache"],
 	{
-		revalidate: 3600,
+		revalidate: false,
 		tags: ["people"]
 	}
 );
@@ -154,7 +154,7 @@ export const getCongressCache = unstable_cache(
 	},
 	["congress-cache"],
 	{
-		revalidate: 3600,
+		revalidate: false,
 		tags: ["congress"]
 	}
 );
@@ -176,7 +176,7 @@ export const getBillsCache = unstable_cache(
 	},
 	["bills-cache"],
 	{
-		revalidate: 3600,
+		revalidate: false,
 		tags: ["bills"]
 	}
 );
@@ -188,7 +188,7 @@ export const getQueriesCache = unstable_cache(
 	},
 	["queries-cache"],
 	{
-		revalidate: 3600,
+		revalidate: false,
 		tags: ["queries"]
 	}
 );

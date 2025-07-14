@@ -8,6 +8,7 @@ import {
 } from "@/lib/airtable/cache";
 import { getSiteMetadata } from "@/lib/meta-tags";
 import { notFound } from "next/navigation";
+import { BillsFields } from "@/lib/airtable/records";
 
 type PageProps = {
 	params: Promise<{ slug: string }>;
@@ -47,6 +48,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 
 	const model = await getModelBySlug(params.slug);
 	if (!model) notFound();
+
 	const queries = (
 		await getQueriesByAirtableIds([...(model.queries ?? [])])
 	).sort((a, b) => {
@@ -55,6 +57,10 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 			new Date(a?.billDate ?? "").getTime()
 		);
 	});
+
+	const allBillIds = [...new Set(queries.flatMap(query => query.bill ?? []))];
+	const billsData = await getBillsByAirtableIds(allBillIds);
+	const billsMap = new Map(billsData.filter(bill => bill.id).map(bill => [bill.id!, bill]));
 
 	return (
 		<div className="px-3 py-3 sm:px-4 sm:py-4">
@@ -73,7 +79,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 								className="flex flex-col gap-8 rounded-2xl bg-stone-300 p-5"
 								key={query.request_id}
 							>
-								<BillList bills={query.bill ?? []} />
+								<BillList bills={query.bill ?? []} billsMap={billsMap} />
 								<div className="flex justify-center gap-12">
 									<div className="flex flex-col items-center justify-center gap-2">
 										<P>Vote LLM</P>
@@ -111,18 +117,21 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 	);
 }
 
-async function BillList({ bills }: { bills: string[] }) {
-	const billsData = await getBillsByAirtableIds(bills ?? []);
+function BillList({ bills, billsMap }: { bills: string[]; billsMap: Map<string, BillsFields> }) {
 	return (
 		<div>
-			{billsData.map((bill) => (
-				<div key={bill.id} className="flex flex-col gap-2">
-					<h3 className="text-xl font-semibold">
-						{bill.id}: {bill.title}
-					</h3>
-					<p>{new Date(bill?.date ?? "").toLocaleDateString()}</p>
-				</div>
-			))}
+			{bills.map((billId) => {
+				const bill = billsMap.get(billId);
+				if (!bill) return null;
+				return (
+					<div key={bill.id} className="flex flex-col gap-2">
+						<h3 className="text-xl font-semibold">
+							{bill.id}: {bill.title}
+						</h3>
+						<p>{new Date(bill?.date ?? "").toLocaleDateString()}</p>
+					</div>
+				);
+			})}
 		</div>
 	);
 }
