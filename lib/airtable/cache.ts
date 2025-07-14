@@ -6,71 +6,13 @@ import {
 	getQueriesRecords,
 	getVotesRecords,
 	BillsFields,
-	CongressFields,
 	ModelFields,
 	PeopleFields,
 	QueriesFields,
 	VotesFields,
+	CongressFields,
 } from "@/lib/airtable/records";
-import { rm, mkdir, readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
-
-async function createCacheFromRecords<T, U = T>({
-	folderName,
-	recordsFunction,
-	transformFunction,
-	fields,
-}: {
-	folderName: string;
-	recordsFunction: (options: { fields?: string[] }) => Promise<
-		{
-			id: string;
-			fields: T;
-		}[]
-	>;
-	transformFunction?: (record: T) => U;
-	fields?: string[];
-}): Promise<void> {
-	const records = await recordsFunction({
-		fields,
-	});
-	const cacheDir = join(process.cwd(), ".cache", folderName);
-
-	await rm(cacheDir, { recursive: true, force: true });
-	await mkdir(cacheDir, { recursive: true });
-
-	for (const record of records) {
-		const filePath = join(cacheDir, `${record.id}.json`);
-		const transformedRecord = transformFunction
-			? transformFunction(record.fields)
-			: record.fields;
-		await Bun.write(filePath, JSON.stringify(transformedRecord));
-	}
-}
-
-export async function createCacheFromModelsRecords(): Promise<void> {
-	await createCacheFromRecords({
-		folderName: "models",
-		recordsFunction: getModelRecords,
-	});
-}
-
-export async function createCacheFromVotesRecords(): Promise<void> {
-	await createCacheFromRecords<VotesFields, VotesCache>({
-		folderName: "votes",
-		recordsFunction: getVotesRecords,
-		transformFunction: (fields) => {
-			return {
-				description: fields.description ?? undefined,
-				date: fields.date ?? undefined,
-				yesPersons: fields.yes ?? undefined,
-				noPersons: fields.no ?? undefined,
-				billId: fields.bills?.[0] ?? undefined,
-			} satisfies VotesCache;
-		},
-		fields: ["description", "date", "yes", "no", "bills"],
-	});
-}
+import { unstable_cache } from "next/cache";
 
 export type VotesCache = {
 	description: string | undefined;
@@ -80,63 +22,10 @@ export type VotesCache = {
 	billId: string | undefined;
 };
 
-export async function createCacheFromPeopleRecords(): Promise<void> {
-	await createCacheFromRecords({
-		folderName: "people",
-		recordsFunction: getPeopleRecords,
-	});
-}
-
-export async function createCacheFromCongressRecords(): Promise<void> {
-	await createCacheFromRecords({
-		folderName: "congress",
-		recordsFunction: getCongressRecords,
-		transformFunction: (fields: CongressFields) => {
-			return {
-				name: fields.name ?? "",
-				years: fields.years ?? "",
-			} satisfies CongressCache;
-		},
-		fields: ["name", "years"],
-	});
-}
-
 export type CongressCache = {
 	name: string;
 	years: string;
 };
-
-export async function createCacheFromBillsRecords(): Promise<void> {
-	await createCacheFromRecords<BillsFields, BillsCache>({
-		folderName: "bills",
-		recordsFunction: getBillsRecords,
-		transformFunction: (fields) => {
-			return {
-				id: fields.id ?? undefined,
-				title: fields.title ?? undefined,
-				summary: fields.summaryWebsite ?? undefined,
-				stateLink: fields.stateLink ?? undefined,
-				congress: fields.nameFromCongress?.[0] ?? undefined,
-				sourcePdf: fields.billPdfUrl ?? undefined,
-				date: fields.date ?? undefined,
-				yesVotes: fields?.["yes (from votes)"] ?? undefined,
-				noVotes: fields?.["no (from votes)"] ?? undefined,
-			} satisfies BillsCache;
-		},
-		fields: [
-			"selection",
-			"id",
-			"title",
-			"summaryWebsite",
-			"stateLink",
-			"billPdfUrl",
-			"nameFromCongress",
-			"date",
-			"yes (from votes)",
-			"no (from votes)",
-		],
-	});
-}
 
 export type BillsCache = {
 	id: string | undefined;
@@ -150,97 +39,188 @@ export type BillsCache = {
 	noVotes: string[] | undefined;
 };
 
-export async function createCacheFromQueriesRecords(): Promise<void> {
-	await createCacheFromRecords({
-		folderName: "queries",
-		recordsFunction: getQueriesRecords,
+type CachedData = {
+	models: { id: string; fields: ModelFields }[];
+	bills: { id: string; fields: BillsFields }[];
+	queries: { id: string; fields: QueriesFields }[];
+	votes: { id: string; fields: VotesFields }[];
+	people: { id: string; fields: PeopleFields }[];
+	congress: { id: string; fields: CongressFields }[];
+};
+
+const getAllData = unstable_cache(
+	async (): Promise<CachedData> => {
+		console.log("Fetching all data from Airtable...");
+
+		const [modelsData, billsData, queriesData, votesData, peopleData, congressData] = await Promise.all([
+			getModelRecords(),
+			getBillsRecords({
+				fields: [
+					"selection",
+					"id",
+					"title",
+					"summaryWebsite",
+					"stateLink",
+					"billPdfUrl",
+					"nameFromCongress",
+					"date",
+					"yes (from votes)",
+					"no (from votes)",
+				],
+			}),
+			getQueriesRecords(),
+			getVotesRecords({
+				fields: ["description", "date", "yes", "no", "bills"],
+			}),
+			getPeopleRecords(),
+			getCongressRecords({
+				fields: ["name", "years"],
+			})
+		]);
+
+		console.log("All data fetched successfully");
+
+		return {
+			models: modelsData,
+			bills: billsData,
+			queries: queriesData,
+			votes: votesData,
+			people: peopleData,
+			congress: congressData,
+		};
+	},
+	["all-airtable-data"],
+	{
+		revalidate: 3600,
+		tags: ["airtable-data"]
+	}
+);
+
+export const getModelsCache = unstable_cache(
+	async (): Promise<ModelFields[]> => {
+		const data = await getAllData();
+		return data.models.map(record => record.fields);
+	},
+	["models-cache"],
+	{
+		revalidate: 3600,
+		tags: ["models"]
+	}
+);
+
+export async function getModelBySlug(slug: string): Promise<ModelFields | undefined> {
+	const data = await getAllData();
+	const model = data.models.find(record => record.fields.slug === slug);
+	return model?.fields;
+}
+
+export const getVotesCache = unstable_cache(
+	async (): Promise<VotesCache[]> => {
+		const data = await getAllData();
+		return data.votes.map(record => ({
+			description: record.fields.description ?? undefined,
+			date: record.fields.date ?? undefined,
+			yesPersons: record.fields.yes ?? undefined,
+			noPersons: record.fields.no ?? undefined,
+			billId: record.fields.bills?.[0] ?? undefined,
+		}));
+	},
+	["votes-cache"],
+	{
+		revalidate: 3600,
+		tags: ["votes"]
+	}
+);
+
+export const getPeopleCache = unstable_cache(
+	async (): Promise<PeopleFields[]> => {
+		const data = await getAllData();
+		return data.people.map(record => record.fields);
+	},
+	["people-cache"],
+	{
+		revalidate: 3600,
+		tags: ["people"]
+	}
+);
+
+export const getCongressCache = unstable_cache(
+	async (): Promise<CongressCache[]> => {
+		const data = await getAllData();
+		return data.congress.map(record => ({
+			name: record.fields.name ?? "",
+			years: record.fields.years ?? "",
+		}));
+	},
+	["congress-cache"],
+	{
+		revalidate: 3600,
+		tags: ["congress"]
+	}
+);
+
+export const getBillsCache = unstable_cache(
+	async (): Promise<BillsCache[]> => {
+		const data = await getAllData();
+		return data.bills.map(record => ({
+			id: record.fields.id ?? undefined,
+			title: record.fields.title ?? undefined,
+			summary: record.fields.summaryWebsite ?? undefined,
+			stateLink: record.fields.stateLink ?? undefined,
+			congress: record.fields.nameFromCongress?.[0] ?? undefined,
+			sourcePdf: record.fields.billPdfUrl ?? undefined,
+			date: record.fields.date ?? undefined,
+			yesVotes: record.fields?.["yes (from votes)"] ?? undefined,
+			noVotes: record.fields?.["no (from votes)"] ?? undefined,
+		}));
+	},
+	["bills-cache"],
+	{
+		revalidate: 3600,
+		tags: ["bills"]
+	}
+);
+
+export const getQueriesCache = unstable_cache(
+	async (): Promise<QueriesFields[]> => {
+		const data = await getAllData();
+		return data.queries.map(record => record.fields);
+	},
+	["queries-cache"],
+	{
+		revalidate: 3600,
+		tags: ["queries"]
+	}
+);
+
+export async function getQueriesByAirtableIds(airtableIds: string[]): Promise<QueriesFields[]> {
+	const data = await getAllData();
+	const queriesMap = new Map<string, QueriesFields>();
+
+	data.queries.forEach(record => {
+		queriesMap.set(record.id, record.fields);
 	});
-}
 
-async function readCache<T>(folderName: string): Promise<T[]> {
-	const cacheDir = join(process.cwd(), ".cache", folderName);
-	let entries: string[];
-	try {
-		entries = await readdir(cacheDir);
-	} catch {
-		return [];
-	}
-	const items: T[] = [];
-	for (const file of entries) {
-		if (file.endsWith(".json")) {
-			const text = await readFile(join(cacheDir, file), "utf-8");
-			items.push(JSON.parse(text) as T);
-		}
-	}
-	return items;
-}
-
-export async function getModelsCache(): Promise<ModelFields[]> {
-	return readCache<ModelFields>("models");
-}
-
-export async function getModelBySlug(
-	slug: string
-): Promise<ModelFields | undefined> {
-	const models = await getModelsCache();
-	return models.find((model) => model.slug === slug);
-}
-
-export async function getVotesCache(): Promise<VotesCache[]> {
-	return readCache<VotesCache>("votes");
-}
-
-export async function getPeopleCache(): Promise<PeopleFields[]> {
-	return readCache<PeopleFields>("people");
-}
-
-export async function getCongressCache(): Promise<CongressCache[]> {
-	return readCache<CongressCache>("congress");
-}
-
-export async function getBillsCache(): Promise<BillsCache[]> {
-	return readCache<BillsCache>("bills");
-}
-
-export async function getQueriesCache(): Promise<QueriesFields[]> {
-	return readCache<QueriesFields>("queries");
-}
-
-export async function getQueriesByAirtableIds(
-	airtableIds: string[]
-): Promise<QueriesFields[]> {
 	const queries: QueriesFields[] = [];
 	for (const airtableId of airtableIds) {
-		const query = await readCacheFile<QueriesFields>(
-			"queries",
-			airtableId
-		);
+		const query = queriesMap.get(airtableId);
 		if (query) queries.push(query);
 	}
 	return queries;
 }
 
-export async function getBillsByAirtableIds(
-	airtableIds: string[]
-): Promise<BillsFields[]> {
+export async function getBillsByAirtableIds(airtableIds: string[]): Promise<BillsFields[]> {
+	const data = await getAllData();
+	const billsMap = new Map<string, BillsFields>();
+
+	data.bills.forEach(record => {
+		billsMap.set(record.id, record.fields);
+	});
+
 	const bills: BillsFields[] = [];
 	for (const airtableId of airtableIds) {
-		const bill = await readCacheFile<BillsFields>("bills", airtableId);
+		const bill = billsMap.get(airtableId);
 		if (bill) bills.push(bill);
 	}
 	return bills;
-}
-
-export async function readCacheFile<T>(
-	folderName: string,
-	id: string
-): Promise<T | undefined> {
-	try {
-		const cacheDir = join(process.cwd(), ".cache", folderName);
-		const filePath = join(cacheDir, `${id}.json`);
-		const text = await readFile(filePath, "utf-8");
-		return JSON.parse(text) as T;
-	} catch {
-		return undefined;
-	}
 }

@@ -1,9 +1,5 @@
-import withExportImages from "next-export-optimize-images";
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-	output: "export",
-	trailingSlash: true,
-};
+const nextConfig: NextConfig = {};
 
-export default withExportImages(nextConfig);
+export default nextConfig;

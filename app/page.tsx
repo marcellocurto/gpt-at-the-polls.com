@@ -1,4 +1,4 @@
-import Image from "next-export-optimize-images/image";
+import Image from "next/image";
 import Android from "@/assets/images/gpt-at-polls.jpg";
 import {
 	H1,

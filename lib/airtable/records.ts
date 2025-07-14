@@ -155,12 +155,12 @@ export async function getVotesRecord(id: string) {
 	});
 }
 
-export async function getVotesRecords() {
+export async function getVotesRecords({ fields }: { fields?: string[] } = {}) {
 	return await getRecords<VotesFields>({
 		apiKey,
 		baseId,
 		tableId: "votes",
-		options: { maxRecords: 50_000 },
+		options: { maxRecords: 50_000, fields },
 	});
 }
 
