@@ -62,30 +62,20 @@ async function getAllData(): Promise<CachedData> {
 	fetchPromise = (async (): Promise<CachedData> => {
 		console.log("Fetching all data from Airtable...");
 
-		const [modelsData, billsData, queriesData, votesData, peopleData, congressData] = await Promise.all([
+		const [
+			modelsData,
+			billsData,
+			queriesData,
+			votesData,
+			peopleData,
+			congressData,
+		] = await Promise.all([
 			getModelRecords(),
-			getBillsRecords({
-				fields: [
-					"selection",
-					"id",
-					"title",
-					"summaryWebsite",
-					"stateLink",
-					"billPdfUrl",
-					"nameFromCongress",
-					"date",
-					"yes (from votes)",
-					"no (from votes)",
-				],
-			}),
+			getBillsRecords(),
 			getQueriesRecords(),
-			getVotesRecords({
-				fields: ["description", "date", "yes", "no", "bills"],
-			}),
+			getVotesRecords(),
 			getPeopleRecords(),
-			getCongressRecords({
-				fields: ["name", "years"],
-			})
+			getCongressRecords(),
 		]);
 
 		console.log("All data fetched successfully");
@@ -108,18 +98,20 @@ async function getAllData(): Promise<CachedData> {
 
 export async function getModelsCache(): Promise<ModelFields[]> {
 	const data = await getAllData();
-	return data.models.map(record => record.fields);
+	return data.models.map((record) => record.fields);
 }
 
-export async function getModelBySlug(slug: string): Promise<ModelFields | undefined> {
+export async function getModelBySlug(
+	slug: string
+): Promise<ModelFields | undefined> {
 	const data = await getAllData();
-	const model = data.models.find(record => record.fields.slug === slug);
+	const model = data.models.find((record) => record.fields.slug === slug);
 	return model?.fields;
 }
 
 export async function getVotesCache(): Promise<VotesCache[]> {
 	const data = await getAllData();
-	return data.votes.map(record => ({
+	return data.votes.map((record) => ({
 		description: record.fields.description ?? undefined,
 		date: record.fields.date ?? undefined,
 		yesPersons: record.fields.yes ?? undefined,
@@ -130,12 +122,12 @@ export async function getVotesCache(): Promise<VotesCache[]> {
 
 export async function getPeopleCache(): Promise<PeopleFields[]> {
 	const data = await getAllData();
-	return data.people.map(record => record.fields);
+	return data.people.map((record) => record.fields);
 }
 
 export async function getCongressCache(): Promise<CongressCache[]> {
 	const data = await getAllData();
-	return data.congress.map(record => ({
+	return data.congress.map((record) => ({
 		name: record.fields.name ?? "",
 		years: record.fields.years ?? "",
 	}));
@@ -143,7 +135,7 @@ export async function getCongressCache(): Promise<CongressCache[]> {
 
 export async function getBillsCache(): Promise<BillsCache[]> {
 	const data = await getAllData();
-	return data.bills.map(record => ({
+	return data.bills.map((record) => ({
 		id: record.fields.id ?? undefined,
 		title: record.fields.title ?? undefined,
 		summary: record.fields.summaryWebsite ?? undefined,
@@ -158,14 +150,16 @@ export async function getBillsCache(): Promise<BillsCache[]> {
 
 export async function getQueriesCache(): Promise<QueriesFields[]> {
 	const data = await getAllData();
-	return data.queries.map(record => record.fields);
+	return data.queries.map((record) => record.fields);
 }
 
-export async function getQueriesByAirtableIds(airtableIds: string[]): Promise<QueriesFields[]> {
+export async function getQueriesByAirtableIds(
+	airtableIds: string[]
+): Promise<QueriesFields[]> {
 	const data = await getAllData();
 	const queriesMap = new Map<string, QueriesFields>();
 
-	data.queries.forEach(record => {
+	data.queries.forEach((record) => {
 		queriesMap.set(record.id, record.fields);
 	});
 
@@ -177,11 +171,13 @@ export async function getQueriesByAirtableIds(airtableIds: string[]): Promise<Qu
 	return queries;
 }
 
-export async function getBillsByAirtableIds(airtableIds: string[]): Promise<BillsFields[]> {
+export async function getBillsByAirtableIds(
+	airtableIds: string[]
+): Promise<BillsFields[]> {
 	const data = await getAllData();
 	const billsMap = new Map<string, BillsFields>();
 
-	data.bills.forEach(record => {
+	data.bills.forEach((record) => {
 		billsMap.set(record.id, record.fields);
 	});
 
