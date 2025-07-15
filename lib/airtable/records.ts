@@ -1,8 +1,3 @@
-import { getRecord, getRecords } from "easy-airtable-api";
-
-const apiKey = process.env.AIRTABLE_API_KEY!;
-const baseId = process.env.AIRTABLE_BASE_ID!;
-
 export async function getBillsRecord() {
 	return undefined;
 }
@@ -40,22 +35,12 @@ export type BillsFields = {
 	"no (from votes)"?: string[];
 };
 
-export async function getVotesRecord(id: string) {
-	return await getRecord<VotesFields>({
-		apiKey,
-		baseId,
-		tableId: "votes",
-		recordId: id,
-	});
+export async function getVotesRecord() {
+	return undefined;
 }
 
 export async function getVotesRecords() {
-	return await getRecords<VotesFields>({
-		apiKey,
-		baseId,
-		tableId: "votes",
-		options: { maxRecords: 50_000 },
-	});
+	return [];
 }
 
 export type VotesFields = {
@@ -77,22 +62,12 @@ export type PeopleFields = {
 	apiId?: number;
 };
 
-export async function getPeopleRecord(id: string) {
-	return await getRecord<PeopleFields>({
-		apiKey,
-		baseId,
-		tableId: "people",
-		recordId: id,
-	});
+export async function getPeopleRecord() {
+	return undefined;
 }
 
 export async function getPeopleRecords() {
-	return await getRecords<PeopleFields>({
-		apiKey,
-		baseId,
-		tableId: "people",
-		options: { maxRecords: 50_000 },
-	});
+	return [];
 }
 
 export type CongressFields = {
@@ -195,13 +170,8 @@ export type QueriesFields = {
 	billDate?: string;
 };
 
-export async function getQueriesRecord(id: string) {
-	return await getRecord<QueriesFields>({
-		apiKey,
-		baseId,
-		tableId: "queries",
-		recordId: id,
-	});
+export async function getQueriesRecord() {
+	return undefined;
 }
 
 export async function getQueriesRecords() {
