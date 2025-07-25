@@ -9,10 +9,10 @@ import {
 } from "@/components/page";
 import Link from "next/link";
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
-import { getModelsCache } from "@/lib/api-client";
+import { getModels } from "@/lib/api-client";
 
 export default async function Home() {
-	const records = (await getModelsCache())
+	const records = (await getModels())
 		.filter((record) => (record.politicalIndex?.length ?? 0) > 113)
 		.filter((record) => record.featured);
 

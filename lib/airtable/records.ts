@@ -87,6 +87,7 @@ export async function getCongressRecords() {
 export type ModelFields = {
 	name?: string;
 	id?: string;
+	modelId?: string;
 	created?: string;
 	description?: string;
 	input_modalities?: string[];
@@ -103,9 +104,10 @@ export type ModelFields = {
 	queries?: string[];
 	lastImport?: string;
 	slug?: string;
+	summary?: string;
 	selection?: string;
 	featured?: boolean;
-	summary?: string;
+	companyName?: string[];
 };
 
 export async function getModelRecord() {

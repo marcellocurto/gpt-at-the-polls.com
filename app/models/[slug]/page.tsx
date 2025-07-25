@@ -3,7 +3,7 @@ import { H1, H2, P } from "@/components/page";
 import {
 	getBillsByAirtableIds,
 	getModelBySlug,
-	getModelsCache,
+	getModels,
 	getQueriesByAirtableIds,
 } from "@/lib/api-client";
 import { getSiteMetadata } from "@/lib/meta-tags";
@@ -17,6 +17,8 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps) {
 	const { slug } = await params;
 	const model = await getModelBySlug(slug);
+	console.log(model);
+
 	if (!model) {
 		return getSiteMetadata({
 			title: "Model Not Found",
@@ -30,7 +32,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export async function generateStaticParams() {
-	const models = await getModelsCache();
+	const models = await getModels();
 	return models
 		.filter((model) => model.slug)
 		.filter((model) => model.selection === "include")
@@ -58,13 +60,18 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 		);
 	});
 
-	const allBillIds = [...new Set(queries.flatMap(query => query.bill ?? []))];
+	const allBillIds = [
+		...new Set(queries.flatMap((query) => query.bill ?? [])),
+	];
 	const billsData = await getBillsByAirtableIds(allBillIds);
-	const billsMap = new Map(billsData.filter(bill => bill.id).map(bill => [bill.id!, bill]));
+	const billsMap = new Map(
+		billsData.filter((bill) => bill.id).map((bill) => [bill.id!, bill])
+	);
 
 	return (
 		<div className="px-3 py-3 sm:px-4 sm:py-4">
 			<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl bg-zinc-200/80 px-4 py-8 shadow-lg sm:p-10 md:py-16">
+				{model?.companyName?.[0] && <div>{model?.companyName[0]}</div>}
 				<H1>{model.name}</H1>
 				<P>{model.summary}</P>
 				<div className="flex w-full flex-col gap-4">
@@ -79,7 +86,11 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 								className="flex flex-col gap-8 rounded-2xl bg-stone-300 p-5"
 								key={query.request_id}
 							>
-								<BillList bills={query.bill ?? []} billsMap={billsMap} />
+								<BillList
+									bills={query.bill ?? []}
+									billsMap={billsMap}
+									queryId={query.request_id}
+								/>
 								<div className="flex justify-center gap-12">
 									<div className="flex flex-col items-center justify-center gap-2">
 										<P>Vote LLM</P>
@@ -117,14 +128,25 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 	);
 }
 
-function BillList({ bills, billsMap }: { bills: string[]; billsMap: Map<string, BillsFields> }) {
+function BillList({
+	bills,
+	billsMap,
+	queryId,
+}: {
+	bills: string[];
+	billsMap: Map<string, BillsFields>;
+	queryId: string | undefined;
+}) {
 	return (
 		<div>
 			{bills.map((billId) => {
 				const bill = billsMap.get(billId);
 				if (!bill) return null;
 				return (
-					<div key={bill.id} className="flex flex-col gap-2">
+					<div
+						key={`${queryId}-${billId}`}
+						className="flex flex-col gap-2"
+					>
 						<h3 className="text-xl font-semibold">
 							{bill.id}: {bill.title}
 						</h3>

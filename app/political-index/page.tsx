@@ -1,6 +1,6 @@
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
 import { H1, H2, SubSection } from "@/components/page";
-import { getModelsCache } from "@/lib/api-client";
+import { getModels } from "@/lib/api-client";
 import { getSiteMetadata } from "@/lib/meta-tags";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ const description =
 export const metadata = getSiteMetadata({ title, description });
 
 export default async function Page() {
-	const records = (await getModelsCache()).filter(
+	const records = (await getModels()).filter(
 		(record) => (record.politicalIndex?.length ?? 0) > 113
 	);
 
