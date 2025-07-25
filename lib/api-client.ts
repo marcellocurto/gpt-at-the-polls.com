@@ -34,10 +34,7 @@ const API_URL = process.env.API_URL || 'https://api.gpt-at-the-polls.com';
 
 async function fetchFromAPI<T>(endpoint: string): Promise<T> {
 	const response = await fetch(`${API_URL}${endpoint}`, {
-		next: {
-			revalidate: 3600,
-			tags: [endpoint.split('/')[2]]
-		}
+		cache: 'force-cache'
 	});
 
 	if (!response.ok) {
@@ -54,10 +51,7 @@ async function postToAPI<T>(endpoint: string, body: { ids: string[] }): Promise<
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(body),
-		next: {
-			revalidate: 3600,
-			tags: [endpoint.split('/')[2]]
-		}
+		cache: 'force-cache'
 	});
 
 	if (!response.ok) {
