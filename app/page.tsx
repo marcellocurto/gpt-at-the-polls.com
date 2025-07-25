@@ -9,7 +9,7 @@ import {
 } from "@/components/page";
 import Link from "next/link";
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
-import { getModelsCache } from "@/lib/airtable/cache";
+import { getModelsCache } from "@/lib/api-client";
 
 export default async function Home() {
 	const records = (await getModelsCache())

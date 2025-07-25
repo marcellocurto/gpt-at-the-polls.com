@@ -5,7 +5,7 @@ import {
 	getModelBySlug,
 	getModelsCache,
 	getQueriesByAirtableIds,
-} from "@/lib/airtable/cache";
+} from "@/lib/api-client";
 import { getSiteMetadata } from "@/lib/meta-tags";
 import { notFound } from "next/navigation";
 import { BillsFields } from "@/lib/airtable/records";

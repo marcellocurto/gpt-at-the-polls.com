@@ -1,6 +1,6 @@
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
 import { H1, H2, SubSection } from "@/components/page";
-import { getModelsCache } from "@/lib/airtable/cache";
+import { getModelsCache } from "@/lib/api-client";
 import { getSiteMetadata } from "@/lib/meta-tags";
 import Link from "next/link";
 
