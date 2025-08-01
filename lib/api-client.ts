@@ -1,5 +1,4 @@
 import {
-	ModelFields,
 	BillsFields,
 	QueriesFields,
 	PeopleFields,
@@ -28,6 +27,12 @@ export type BillsCache = {
 	date: string | undefined;
 	yesVotes: string[] | undefined;
 	noVotes: string[] | undefined;
+};
+
+export type ModelCache = {
+	name: string;
+	description: string;
+	slug: string;
 };
 
 const API_URL = process.env.API_URL || "https://api.gpt-at-the-polls.com";
@@ -66,13 +71,13 @@ async function postToAPI<T>(
 	return response.json();
 }
 
-export async function getModels(): Promise<ModelFields[]> {
-	return fetchFromAPI<ModelFields[]>("/api/models");
+export async function getModels(): Promise<ModelCache[]> {
+	return fetchFromAPI<ModelCache[]>("/api/models");
 }
 
 export async function getModelBySlug(
 	slug: string
-): Promise<ModelFields | undefined> {
+): Promise<ModelCache | undefined> {
 	try {
 		const models = await getModels();
 		return models.find((model) => model.slug === slug);
