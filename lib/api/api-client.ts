@@ -1,9 +1,3 @@
-import {
-	BillsFields,
-	QueriesFields,
-	PeopleFields,
-} from "@/lib/airtable/records";
-
 export type VotesCache = {
 	description: string | undefined;
 	yesPersons: string[] | undefined;
@@ -48,7 +42,7 @@ export type Queries = {
 	vote: string | undefined;
 };
 
-const API_URL = process.env.API_URL || "https://api.gpt-at-the-polls.com";
+const API_URL = process.env.API_URL!;
 
 async function fetchFromAPI<T>(endpoint: string): Promise<T> {
 	const response = await fetch(`${API_URL}${endpoint}`, {
