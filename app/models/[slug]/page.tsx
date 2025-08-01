@@ -1,6 +1,6 @@
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
 import { H1, H2, P } from "@/components/page";
-import { getModelBySlug, getModels } from "@/lib/api/api-client";
+import { getModelBySlug, getModels } from "@/lib/api-client";
 import { notFound } from "next/navigation";
 import { BillsFields } from "@/lib/airtable/records";
 import {

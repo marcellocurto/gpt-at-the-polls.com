@@ -112,19 +112,3 @@ export async function getPeople(): Promise<PeopleFields[]> {
 export async function getCongressCache(): Promise<CongressCache[]> {
 	return fetchFromAPI<CongressCache[]>("/api/congress");
 }
-
-export async function getQueriesByAirtableIds(
-	airtableIds: string[]
-): Promise<QueriesFields[]> {
-	return postToAPI<QueriesFields[]>("/api/queries/batch", {
-		ids: airtableIds,
-	});
-}
-
-export async function getBillsByAirtableIds(
-	airtableIds: string[]
-): Promise<BillsFields[]> {
-	return postToAPI<BillsFields[]>("/api/bills/batch", {
-		ids: airtableIds,
-	});
-}

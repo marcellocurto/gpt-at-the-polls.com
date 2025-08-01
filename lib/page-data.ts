@@ -1,4 +1,4 @@
-import { getModelBySlug } from "@/lib/api/api-client";
+import { getModelBySlug } from "@/lib/api-client";
 import { getSiteMetadata } from "@/lib/meta-tags";
 
 export async function getModelPageMetadata(slug: unknown) {
