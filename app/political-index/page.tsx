@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
 import { H1, H2, SubSection } from "@/components/page";
 import { getModels } from "@/lib/api-client";
 import { getSiteMetadata } from "@/lib/meta-tags";
-import Link from "next/link";
 
 const title = "Political Index";
 const description =

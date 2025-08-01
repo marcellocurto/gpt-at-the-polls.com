@@ -37,6 +37,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 	const model = await getModelBySlug(params.slug);
 	if (!model) notFound();
 
+	const queries = model.queries;
 	const bills = getBillsListByModelSlug(params.slug);
 
 	return (
@@ -59,7 +60,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 						{queries.map((query) => (
 							<div
 								className="flex flex-col gap-8 rounded-2xl bg-stone-300 p-5"
-								key={query.request_id}
+								key={query.}
 							>
 								<BillList
 									bills={query.bill ?? []}
