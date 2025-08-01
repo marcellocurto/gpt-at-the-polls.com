@@ -11,9 +11,7 @@ const description =
 export const metadata = getSiteMetadata({ title, description });
 
 export default async function Page() {
-	const records = (await getModels()).filter(
-		(record) => (record.politicalIndex?.length ?? 0) > 113
-	);
+	const records = await getModels();
 
 	const calculateDPercentage = (politicalIndex?: string[]): number => {
 		if (!politicalIndex || politicalIndex.length === 0) {

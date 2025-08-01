@@ -1,16 +1,20 @@
 export type Model = {
+	id: string;
 	name: string | undefined;
 	description: string | undefined;
 	slug: string | undefined;
-	queries: Queries[];
 	selection: string | undefined;
 	companyName: string | undefined;
+	featured: boolean;
+	politicalIndex: number;
+	queries: Query[];
 };
 
-export type Queries = {
+export type Query = {
+	id: string;
 	created: string | undefined;
 	justification: string | undefined;
-	session_id: string | undefined;
+	sessionId: string | undefined;
 	bill: Bill | undefined;
 	model: string | undefined;
 	politicalIndex: number;

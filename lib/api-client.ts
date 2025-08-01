@@ -1,4 +1,4 @@
-import { Bill, Congress, Model, People, Queries, Vote } from "@/lib/types";
+import { Bill, Congress, Model, People, Query, Vote } from "@/lib/types";
 
 const API_URL = process.env.API_URL!;
 
@@ -12,6 +12,10 @@ async function fetchFromAPI<T>(endpoint: string): Promise<T> {
 	}
 
 	return response.json();
+}
+
+export async function getModelsSortedLeftToRight() {
+	const models = await getModels();
 }
 
 export async function getModels(): Promise<Model[]> {
@@ -33,8 +37,8 @@ export async function getBills(): Promise<Bill[]> {
 	return fetchFromAPI<Bill[]>("/api/bills");
 }
 
-export async function getQueries(): Promise<Queries[]> {
-	return fetchFromAPI<Queries[]>("/api/queries");
+export async function getQueries(): Promise<Query[]> {
+	return fetchFromAPI<Query[]>("/api/queries");
 }
 
 export async function getVotes(): Promise<Vote[]> {
