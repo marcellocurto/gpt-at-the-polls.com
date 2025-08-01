@@ -1,14 +1,12 @@
 import { PoliticalIndexGraph } from "@/components/graphics/graph";
 import { H1, H2, P } from "@/components/page";
-import {
-	getBillsByAirtableIds,
-	getModelBySlug,
-	getModels,
-	getQueriesByAirtableIds,
-} from "@/lib/api-client";
-import { getSiteMetadata } from "@/lib/meta-tags";
+import { getModelBySlug, getModels } from "@/lib/api-client";
 import { notFound } from "next/navigation";
 import { BillsFields } from "@/lib/airtable/records";
+import {
+	getBillsListByModelSlug,
+	getModelPageMetadata,
+} from "@/lib/page-data";
 
 type PageProps = {
 	params: Promise<{ slug: string }>;
@@ -16,19 +14,7 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps) {
 	const { slug } = await params;
-	const model = await getModelBySlug(slug);
-	console.log(model);
-
-	if (!model) {
-		return getSiteMetadata({
-			title: "Model Not Found",
-			description: "The model you are looking for does not exist.",
-		});
-	}
-	return getSiteMetadata({
-		title: model.name,
-		description: model.summary || model.description,
-	});
+	return await getModelPageMetadata(slug);
 }
 
 export async function generateStaticParams() {
@@ -51,29 +37,18 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 	const model = await getModelBySlug(params.slug);
 	if (!model) notFound();
 
-	const queries = (
-		await getQueriesByAirtableIds([...(model.queries ?? [])])
-	).sort((a, b) => {
-		return (
-			new Date(b?.billDate ?? "").getTime() -
-			new Date(a?.billDate ?? "").getTime()
-		);
-	});
-
-	const allBillIds = [
-		...new Set(queries.flatMap((query) => query.bill ?? [])),
-	];
-	const billsData = await getBillsByAirtableIds(allBillIds);
-	const billsMap = new Map(
-		billsData.filter((bill) => bill.id).map((bill) => [bill.id!, bill])
-	);
+	const bills = getBillsListByModelSlug(params.slug);
 
 	return (
 		<div className="px-3 py-3 sm:px-4 sm:py-4">
 			<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-8 rounded-4xl bg-zinc-200/80 px-4 py-8 shadow-lg sm:p-10 md:py-16">
-				{model?.companyName?.[0] && <div>{model?.companyName[0]}</div>}
+				{model?.companyName && (
+					<div className="rounded-full bg-blue-50 px-2 py-1 text-blue-500 ring ring-blue-100">
+						{model?.companyName}
+					</div>
+				)}
 				<H1>{model.name}</H1>
-				<P>{model.summary}</P>
+				<P>{model.description}</P>
 				<div className="flex w-full flex-col gap-4">
 					<PoliticalIndexGraph politicalIndex={model.politicalIndex} />
 				</div>
@@ -101,7 +76,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 									<div className="flex flex-col items-center justify-center gap-2">
 										<P>Vote AOC (D)</P>
 										<div className="flex size-14 items-center justify-center rounded-full border border-blue-400 bg-blue-200 text-center leading-0 font-bold shadow">
-											{query.yesVotes?.[0] === "recnGfzvMpW4zyvC7"
+											{query.yesVotes === "recnGfzvMpW4zyvC7"
 												? "Yes"
 												: "No"}
 										</div>
@@ -109,7 +84,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 									<div className="flex flex-col items-center justify-center gap-2">
 										<P>Vote Mike Johnson (R)</P>
 										<div className="flex size-14 items-center justify-center rounded-full border border-red-400 bg-red-200 text-center leading-0 font-bold shadow">
-											{query.yesVotes?.[0] === "recmcdCkjBKUhhWIT"
+											{query.yesVotes === "recmcdCkjBKUhhWIT"
 												? "Yes"
 												: "No"}
 										</div>

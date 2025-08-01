@@ -30,9 +30,22 @@ export type BillsCache = {
 };
 
 export type ModelCache = {
-	name: string;
-	description: string;
-	slug: string;
+	name: string | undefined;
+	description: string | undefined;
+	slug: string | undefined;
+	queries: Queries[];
+	selection: string | undefined;
+	companyName: string | undefined;
+};
+
+export type Queries = {
+	created: string | undefined;
+	justification: string | undefined;
+	session_id: string | undefined;
+	bill: BillsCache | undefined;
+	model: string | undefined;
+	politicalIndex: number;
+	vote: string | undefined;
 };
 
 const API_URL = process.env.API_URL || "https://api.gpt-at-the-polls.com";
