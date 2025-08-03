@@ -16,6 +16,7 @@ async function fetchFromAPI<T>(endpoint: string): Promise<T> {
 
 export async function getModelsSortedLeftToRight() {
 	const models = await getModels();
+	return models.sort((a, b) => a.politicalIndex - b.politicalIndex);
 }
 
 export async function getModels(): Promise<Model[]> {
