@@ -6,7 +6,7 @@ export type Model = {
 	selection: string | undefined;
 	companyName: string | undefined;
 	featured: boolean;
-	politicalIndex: number;
+	politicalIndex: string[];
 	queries: Query[];
 };
 
@@ -17,7 +17,7 @@ export type Query = {
 	sessionId: string | undefined;
 	bill: Bill | undefined;
 	model: string | undefined;
-	politicalIndex: number;
+	politicalIndex: string[];
 	vote: string | undefined;
 };
 

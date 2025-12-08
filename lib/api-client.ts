@@ -14,9 +14,17 @@ async function fetchFromAPI<T>(endpoint: string): Promise<T> {
 	return response.json();
 }
 
+function calculateDPercentage(politicalIndex: string[]): number {
+	if (!politicalIndex || politicalIndex.length === 0) {
+		return 0;
+	}
+	const countD = politicalIndex.filter((index) => index === "D").length;
+	return (countD / politicalIndex.length) * 100;
+}
+
 export async function getModelsSortedLeftToRight() {
 	const models = await getModels();
-	return models.sort((a, b) => a.politicalIndex - b.politicalIndex);
+	return models.sort((a, b) => calculateDPercentage(a.politicalIndex) - calculateDPercentage(b.politicalIndex));
 }
 
 export async function getModels(): Promise<Model[]> {

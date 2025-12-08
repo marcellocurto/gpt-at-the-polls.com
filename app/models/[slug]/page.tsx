@@ -2,11 +2,8 @@ import { PoliticalIndexGraph } from "@/components/graphics/graph";
 import { H1, H2, P } from "@/components/page";
 import { getModelBySlug, getModels } from "@/lib/api-client";
 import { notFound } from "next/navigation";
-import { BillsFields } from "@/lib/airtable/records";
-import {
-	getBillsListByModelSlug,
-	getModelPageMetadata,
-} from "@/lib/page-data";
+import { Bill } from "@/lib/types";
+import { getModelPageMetadata } from "@/lib/page-data";
 
 type PageProps = {
 	params: Promise<{ slug: string }>;
@@ -38,7 +35,6 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 	if (!model) notFound();
 
 	const queries = model.queries;
-	const bills = getBillsListByModelSlug(params.slug);
 
 	return (
 		<div className="px-3 py-3 sm:px-4 sm:py-4">
@@ -54,18 +50,17 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 					<PoliticalIndexGraph politicalIndex={model.politicalIndex} />
 				</div>
 
-				<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-2">
 					<H2>Queries</H2>
 					<div className="flex flex-col gap-8">
 						{queries.map((query) => (
 							<div
 								className="flex flex-col gap-8 rounded-2xl bg-stone-300 p-5"
-								key={query.}
+								key={query.id}
 							>
 								<BillList
-									bills={query.bill ?? []}
-									billsMap={billsMap}
-									queryId={query.request_id}
+									bill={query.bill}
+									queryId={query.id}
 								/>
 								<div className="flex justify-center gap-12">
 									<div className="flex flex-col items-center justify-center gap-2">
@@ -77,7 +72,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 									<div className="flex flex-col items-center justify-center gap-2">
 										<P>Vote AOC (D)</P>
 										<div className="flex size-14 items-center justify-center rounded-full border border-blue-400 bg-blue-200 text-center leading-0 font-bold shadow">
-											{query.yesVotes === "recnGfzvMpW4zyvC7"
+											{query.bill?.yesVotes?.includes("recnGfzvMpW4zyvC7")
 												? "Yes"
 												: "No"}
 										</div>
@@ -85,7 +80,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 									<div className="flex flex-col items-center justify-center gap-2">
 										<P>Vote Mike Johnson (R)</P>
 										<div className="flex size-14 items-center justify-center rounded-full border border-red-400 bg-red-200 text-center leading-0 font-bold shadow">
-											{query.yesVotes === "recmcdCkjBKUhhWIT"
+											{query.bill?.yesVotes?.includes("recmcdCkjBKUhhWIT")
 												? "Yes"
 												: "No"}
 										</div>
@@ -105,31 +100,25 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 }
 
 function BillList({
-	bills,
-	billsMap,
+	bill,
 	queryId,
 }: {
-	bills: string[];
-	billsMap: Map<string, BillsFields>;
+	bill: Bill | undefined;
 	queryId: string | undefined;
 }) {
+	if (!bill) return null;
+
 	return (
 		<div>
-			{bills.map((billId) => {
-				const bill = billsMap.get(billId);
-				if (!bill) return null;
-				return (
-					<div
-						key={`${queryId}-${billId}`}
-						className="flex flex-col gap-2"
-					>
-						<h3 className="text-xl font-semibold">
-							{bill.id}: {bill.title}
-						</h3>
-						<p>{new Date(bill?.date ?? "").toLocaleDateString()}</p>
-					</div>
-				);
-			})}
+			<div
+				key={`${queryId}-${bill.id}`}
+				className="flex flex-col gap-2"
+			>
+				<h3 className="text-xl font-semibold">
+					{bill.id}: {bill.title}
+				</h3>
+				<p>{new Date(bill?.date ?? "").toLocaleDateString()}</p>
+			</div>
 		</div>
 	);
 }
